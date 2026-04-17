@@ -1,0 +1,18 @@
+{
+  "apiVersion": 3,
+  "title": "MWF Shortcode",
+  "name": "mwf/shortcode",
+  "category": "widgets",
+  "icon": "editor-code",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "shortcode": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "render": "file:./render.php"
+}

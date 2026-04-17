@@ -1,0 +1,61 @@
+{
+	"name": "bmd_wpframework",
+	"version": "4.0.1",
+	"description": "Generic WordPress framework plugin",
+	"author": "Bob Moore <bob.moore@midwestfamilymadison.com>",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"mu-plugin",
+		"project",
+		"wordpress"
+	],
+	"homepage": "https://www.midwestfamilymadison.com",
+	"repository": "https://github.com/MDMDevOps/{PROJECT}",
+	"bugs": "https://github.com/MDMDevOps/{PROJECT}/issues",
+	"devDependencies": {
+		"@wordpress/scripts": "^31.8.0",
+		"autoprefixer": "^10.5.0",
+		"mini-css-extract-plugin": "^2.10.2",
+		"postcss": "^8.5.9",
+		"postcss-assets": "^6.0.0",
+		"postcss-pxtorem": "^6.1.0",
+		"sass": "^1.99.0",
+		"webpack-remove-empty-scripts": "^1.1.1"
+	},
+	"scripts": {
+		"build": "npm run fix:css && npm run fix:js && npm run compile",
+		"compile": "wp-scripts build --webpack-src-dir=./src/blocks --webpack-copy-php --experimental-modules",
+		"watch": "wp-scripts start --webpack-src-dir=./src/blocks --webpack-copy-php --experimental-modules",
+		"watch:hot": "wp-scripts start --hot --source-path='./src/blocks'",
+		"block-manifest": "wp-scripts build-blocks-manifest --output=build/blocks/manifest.php",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses --prod --gpl2",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style './src/**/*.scss'",
+		"fix:css": "wp-scripts lint-style './src/**/*.scss' --fix",
+		"lint:js": "wp-scripts lint-js './src/**/*.ts' './src/**/*.tsx'",
+		"fix:js": "wp-scripts lint-js './src/**/*.ts' './src/**/*.tsx' --fix",
+		"lint:md:docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"packages-update": "wp-scripts packages-update",
+		"zip": "wp-scripts plugin-zip",
+		"test:e2e": "wp-scripts test-e2e",
+		"test:unit": "wp-scripts test-unit-js",
+		"update:all": "npx npm-check-updates -u"
+	},
+	"browserslist": [
+		"last 3 version",
+		"> 1%",
+		"not dead"
+	],
+	"dependencies": {
+		"lodash.isequal": "^4.5.0"
+	},
+	"files": [ 
+		"dist",
+		"includes",
+		"vendor",
+		"post-types.json",
+		"taxonomies.json"
+	]
+}

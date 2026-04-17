@@ -1,0 +1,303 @@
+<?php
+/**
+ * Service Locator
+ *
+ * PHP Version 8.2
+ *
+ * @package Bmd_WPFramework
+ * @author  Bob Moore <bob.moore@midwestfamilymadison.com>
+ * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
+ * @link    https://www.midwestfamilymadison.com
+ * @since   1.0.0
+ */
+
+namespace Bmd\WPFramework\Services;
+
+use Bmd\WPFramework\Core\Interfaces;
+
+use Bmd\WPFramework\Deps\DI\Container,
+	Bmd\WPFramework\Deps\DI\ContainerBuilder,
+	Bmd\WPFramework\Deps\DI\DependencyException,
+	Bmd\WPFramework\Deps\DI\NotFoundException,
+	Bmd\WPFramework\Deps\DI\Definition\Reference,
+	Bmd\WPFramework\Deps\DI\Definition\StringDefinition,
+	Bmd\WPFramework\Deps\DI\Definition\ValueDefinition,
+	Bmd\WPFramework\Deps\DI\Definition\Helper;
+
+/**
+ * Builder for Service Containers
+ *
+ * Handles dependency injection container management and service resolution
+ *
+ * @subpackage Services
+ */
+class ServiceLocator
+{
+	/**
+	* PHP\DI Service Container.
+	*
+	* @var Container
+	* @see https://php-di.org/doc/container.html
+	*/
+	private Container $container;
+
+	/**
+	* PHP\DI Container Builder.
+	*
+	* @var ContainerBuilder
+	* @see https://php-di.org/doc/container-configuration.html
+	*/
+	private ContainerBuilder $container_builder;
+
+	/**
+	* Array of service definitions.
+	*
+	* @var array<string, mixed>
+	*/
+	private array $service_definitions = [];
+	/**
+	* Initializes a new instance of the ServiceLocator class.
+	*
+	* Sets up the ContainerBuilder with autowiring and attributes enabled.
+	*/
+	public function __construct()
+	{
+		$this->container_builder = new ContainerBuilder();
+		$this->container_builder->useAutowiring( true );
+		$this->container_builder->useAttributes( true );
+	}
+	/**
+	 * Add an array of service definitions to the container.
+	 *
+	 * @param array<string, mixed> $definitions : array of service definitions.
+	 *
+	 * @return void
+	 */
+	public function addDefinitions( array $definitions ): void
+	{
+		foreach ( $definitions as $key => $definition ) {
+			$this->addDefinition( $key, $definition );
+		}
+	}
+
+	/**
+	 * Build the container
+	 *
+	 * Adds collected service definitions to the container builder, and compiles
+	 * the container, setting it to the private container property.
+	 *
+	 * @return void
+	 */
+	public function build(): void
+	{
+		foreach ( $this->service_definitions as $definition ) {
+			$this->container_builder->addDefinitions( $definition );
+		}
+		$this->container = $this->container_builder->build();
+	}
+
+	/**
+	 * Add a service definition to the collection of definitions.
+	 *
+	 * If the definition is an instance of the AutowireDefinitionHelper class, it
+	 * attempts to set the package name and call the onMount method if the class implements it.
+	 *
+	 * @param string $service : name of the service.
+	 * @param mixed  $definition : service definition.
+	 *
+	 * @return void
+	 */
+	public function addDefinition( string $service, mixed $definition ): void
+	{
+		$extended_definitions = [];
+		if ( is_object( $definition ) && is_a( $definition, Helper\AutowireDefinitionHelper::class ) ) {
+			$class_name = $this->getAutoWiredClassName( $definition, $service );
+
+			if ( is_a( $class_name, Interfaces\Mountable::class, true ) ) {
+				$definition->method( 'onMount' );
+			}
+
+			if (
+				is_a( $class_name, Interfaces\Controller::class, true )
+				&& empty( array_column( $this->service_definitions, $service ) )
+			) {
+				$extended_definitions = $class_name::getServiceDefinitions();
+			}
+		}
+		$this->service_definitions[] = [ $service => $definition ];
+
+		if ( ! empty( $extended_definitions ) ) {
+			$this->addDefinitions( $extended_definitions );
+		}
+	}
+
+	/**
+	 * Get the class name of an auto wired definition
+	 *
+	 * @param Helper\AutowireDefinitionHelper $definition : service definition to check.
+	 * @param string                          $service : the service name.
+	 *
+	 * @return string
+	 */
+	protected function getAutoWiredClassName( Helper\AutowireDefinitionHelper $definition, string $service ): string
+	{
+		$definition_object = $definition->getDefinition( $service );
+
+		$class_name = $definition_object->getClassName();
+
+		return $class_name;
+	}
+
+	/**
+	 * Locate a specific service
+	 *
+	 * Use primarily by 3rd party interactions to remove actions/filters
+	 *
+	 * @param string $service : name of service to locate.
+	 *
+	 * @return mixed
+	 */
+	public function getService( string $service ): mixed
+	{
+		if ( ! isset( $this->container ) ) {
+			return new \WP_Error( 'no_container_found', 'No container found' );
+		}
+		try {
+			return $this->container->get( $service );
+		} catch ( DependencyException | NotFoundException $e ) {
+			return new \WP_Error( $e->getMessage() );
+		}
+	}
+
+	/**
+	 * Mount a service
+	 *
+	 * Wrapper for getService method. Used to mount a service from the container
+	 * without returning it.
+	 *
+	 * @param string $service : name of service to mount.
+	 *
+	 * @return void
+	 */
+	public function mountService( string $service ): void
+	{
+		$this->getService( $service );
+	}
+
+	/**
+	 * Resolve a new instance of a service
+	 *
+	 * @param string       $service : name of the service to make.
+	 * @param array<mixed> $args : array of arguments to pass into the service
+	 *                             constructor.
+	 *
+	 * @return \WP_Error|null
+	 */
+	public function makeService( string $service, array $args = [] ): \WP_Error|null
+	{
+		if ( ! isset( $this->container ) ) {
+			return new \WP_Error( 'no_container_found', 'No container found' );
+		}
+
+		return $this->container->make( $service, $args );
+	}
+
+	/**
+	 * Set a service in the container.
+	 *
+	 * @param string $service : service name.
+	 * @param mixed  $value : service value.
+	 *
+	 * @return void
+	 */
+	public function setService( string $service, $value ): void
+	{
+		$this->container->set( $service, $value );
+	}
+	/**
+	 * Wrapper for parent auto wire function. Only used for simplicity
+	 *
+	 * @param string|null $class_name : name of service to auto wire.
+	 *
+	 * @return Helper\AutowireDefinitionHelper
+	 */
+	public static function autowire( string|null $class_name = null ): Helper\AutowireDefinitionHelper
+	{
+		return \Bmd\WPFramework\Deps\DI\autowire( $class_name );
+	}
+
+	/**
+	 * Helper for defining an object.
+	 *
+	 * @param string|null $class_name Class name of the object.
+	 *                               If null, the name of the entry (in the container) will be used as class name.
+	 */
+	public static function create( string|null $class_name = null ): Helper\DefinitionHelper
+	{
+		return \Bmd\WPFramework\Deps\DI\create( $class_name );
+	}
+
+	/**
+	 * Wrapper for parent get function. Only used for simplicity
+	 *
+	 * @param string $class_name : name of service to retrieve.
+	 *
+	 * @return Reference;
+	 */
+	public static function get( string $class_name ): Reference
+	{
+		return \Bmd\WPFramework\Deps\DI\get( $class_name );
+	}
+
+	/**
+	 * Helper for defining a container entry using a factory function/callable.
+	 *
+	 * @param callable|array<mixed>|string $factory : The factory is a callable that takes the container as parameter
+	 *                                                and returns the value to register in the container.
+	 */
+	public static function factory( $factory ): Helper\DefinitionHelper
+	{
+		return \Bmd\WPFramework\Deps\DI\factory( $factory );
+	}
+
+	/**
+	 * Decorate the previous definition using a callable.
+	 *
+	 * Example:
+	 *
+	 *     'foo' => decorate(function ($foo, $container) {
+	 *         return new CachedFoo($foo, $container->get('cache'));
+	 *     })
+	 *
+	 * @param callable|array<mixed>|string $decorator : The callable takes the decorated object as first parameter and
+	 *                                                  the container as second.
+	 */
+	public static function decorate( $decorator ): Helper\DefinitionHelper
+	{
+		return \Bmd\WPFramework\Deps\DI\decorate( $decorator );
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $expression : A string expression. Use the `{}` placeholders to reference other container entries.
+	 *
+	 * @return StringDefinition
+	 */
+	public static function string( string $expression ): StringDefinition
+	{
+		return \Bmd\WPFramework\Deps\DI\string( $expression );
+	}
+
+	/**
+	 * Helper for defining a value.
+	 *
+	 * @param mixed $value : value definition.
+	 *
+	 * @return ValueDefinition
+	 */
+	public static function value( mixed $value ): ValueDefinition
+	{
+		return \Bmd\WPFramework\Deps\DI\value( $value );
+	}
+}
