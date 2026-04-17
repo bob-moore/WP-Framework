@@ -87,6 +87,7 @@ class Main
 		self::$service_locator->addDefinitions(
 			[
 				Controllers\ServiceController::class    => ServiceLocator::autowire(),
+				Controllers\ContextController::class    => ServiceLocator::autowire(),
 			]
 		);
 	}
@@ -109,9 +110,8 @@ class Main
 		/**
 		* Instantiate the controllers.
 		*/
-		self::$service_locator->mountService( service: Controllers\ProcessorController::class );
 		self::$service_locator->mountService( service: Controllers\ServiceController::class );
-		self::$service_locator->mountService( service: Controllers\MiddlewareController::class );
+		self::$service_locator->mountService( service: Controllers\ContextController::class );
 	}
 	/**
 	* Locate a specific service
