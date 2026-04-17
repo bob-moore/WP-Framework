@@ -4,10 +4,10 @@
  *
  * PHP Version 8.1
  *
- * @package PLUGIN_SLUG
- * @author  AUTHOR_NAME <AUTHOR_EMAIL>
+ * @package Bmd_WPFramework
+ * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/Devkit-Plugin-Boilerplate
+ * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
 declare( strict_types = 1 );

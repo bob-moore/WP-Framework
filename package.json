@@ -2,14 +2,14 @@
 	"name": "bmd_wpframework",
 	"version": "4.0.1",
 	"description": "Generic WordPress framework plugin",
-	"author": "Bob Moore <bob.moore@midwestfamilymadison.com>",
+	"author": "Bob Moore <bob@bobmoore.dev>",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"mu-plugin",
 		"project",
 		"wordpress"
 	],
-	"homepage": "https://www.midwestfamilymadison.com",
+	"homepage": "https://www.bobmoore.dev",
 	"repository": "https://github.com/MDMDevOps/{PROJECT}",
 	"bugs": "https://github.com/MDMDevOps/{PROJECT}/issues",
 	"devDependencies": {

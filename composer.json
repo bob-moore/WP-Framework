@@ -2,7 +2,9 @@
     "name": "bmd/wp-framework",
     "description": "Generic WordPress framework plugin",
     "type": "library",
-    "license": "GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>",
+   "license": "GPL-2.0-or-later",
+    "version": "1.0.0",
+    "author": "Bob Moore",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

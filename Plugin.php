@@ -5,18 +5,18 @@
  * PHP Version 8.2
  *
  * @package Bmd_WPFramework
- * @author  Mid-West Family <digital@midwestfamilymadison.com>
+ * @author  Mid-West Family <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://www.midwestfamilymadison.com
+ * @link    https://www.bobmoore.dev
  * @since   1.0.0
  *
  * @wordpress-plugin
  * Plugin Name: BMD WP Framework
- * Plugin URI:  https://www.midwestfamilymadison.com
+ * Plugin URI:  https://www.bobmoore.dev
  * Description: Generic WordPress framework plugin
  * Version:     6.1.0
- * Author:      Mid-West Family Madison <bob.moore@midwestfamilymadison.com>
- * Author URI:  https://www.midwestfamilymadison.com
+ * Author:      Mid-West Family Madison <bob@bobmoore.dev>
+ * Author URI:  https://www.bobmoore.dev
  * Requires at least: 6.0
  * Tested up to: 6.3
  * Requires PHP: 8.2

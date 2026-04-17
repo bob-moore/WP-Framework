@@ -5,9 +5,7 @@
                 }
             ],
             "settings": {
-                "intelephense.environment.includePaths" : [
-                    "../../plugins/bb-plugin/"
-                ],
+                "intelephense.environment.includePaths" : [],
                 "phpcs.enable": true,
                 "phpcs.standard": "./tests/phpcs.xml",
                 "phpcs.executablePath": "./vendor/bin/phpcs",
