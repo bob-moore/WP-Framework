@@ -15,14 +15,14 @@ namespace Bmd\WPFramework\Services;
 
 use Bmd\WPFramework\Core\Interfaces;
 
-use Bmd\WPFramework\Deps\DI\Container,
-	Bmd\WPFramework\Deps\DI\ContainerBuilder,
-	Bmd\WPFramework\Deps\DI\DependencyException,
-	Bmd\WPFramework\Deps\DI\NotFoundException,
-	Bmd\WPFramework\Deps\DI\Definition\Reference,
-	Bmd\WPFramework\Deps\DI\Definition\StringDefinition,
-	Bmd\WPFramework\Deps\DI\Definition\ValueDefinition,
-	Bmd\WPFramework\Deps\DI\Definition\Helper;
+use DI\Container,
+	DI\ContainerBuilder,
+	DI\DependencyException,
+	DI\NotFoundException,
+	DI\Definition\Reference,
+	DI\Definition\StringDefinition,
+	DI\Definition\ValueDefinition,
+	DI\Definition\Helper;
 
 /**
  * Builder for Service Containers
@@ -223,7 +223,7 @@ class ServiceLocator
 	 */
 	public static function autowire( string|null $class_name = null ): Helper\AutowireDefinitionHelper
 	{
-		return \Bmd\WPFramework\Deps\DI\autowire( $class_name );
+		return \DI\autowire( $class_name );
 	}
 
 	/**
@@ -234,7 +234,7 @@ class ServiceLocator
 	 */
 	public static function create( string|null $class_name = null ): Helper\DefinitionHelper
 	{
-		return \Bmd\WPFramework\Deps\DI\create( $class_name );
+		return \DI\create( $class_name );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class ServiceLocator
 	 */
 	public static function get( string $class_name ): Reference
 	{
-		return \Bmd\WPFramework\Deps\DI\get( $class_name );
+		return \DI\get( $class_name );
 	}
 
 	/**
@@ -257,7 +257,7 @@ class ServiceLocator
 	 */
 	public static function factory( $factory ): Helper\DefinitionHelper
 	{
-		return \Bmd\WPFramework\Deps\DI\factory( $factory );
+		return \DI\factory( $factory );
 	}
 
 	/**
@@ -274,7 +274,7 @@ class ServiceLocator
 	 */
 	public static function decorate( $decorator ): Helper\DefinitionHelper
 	{
-		return \Bmd\WPFramework\Deps\DI\decorate( $decorator );
+		return \DI\decorate( $decorator );
 	}
 
 	/**
@@ -286,7 +286,7 @@ class ServiceLocator
 	 */
 	public static function string( string $expression ): StringDefinition
 	{
-		return \Bmd\WPFramework\Deps\DI\string( $expression );
+		return \DI\string( $expression );
 	}
 
 	/**
@@ -298,6 +298,6 @@ class ServiceLocator
 	 */
 	public static function value( mixed $value ): ValueDefinition
 	{
-		return \Bmd\WPFramework\Deps\DI\value( $value );
+		return \DI\value( $value );
 	}
 }
