@@ -11,7 +11,7 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-namespace Bmd\WPFramework\Core;
+namespace Bmd\WPFramework;
 
 /**
  * App Factory
