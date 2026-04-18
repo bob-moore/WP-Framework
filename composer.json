@@ -3,7 +3,7 @@
     "description": "Generic WordPress framework plugin",
     "type": "library",
     "license": "GPL-2.0-or-later",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "Bob Moore",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -16,15 +16,13 @@
         "allow-plugins": {
             "composer\/installers": true,
             "dealerdirect\/phpcodesniffer-composer-installer": true,
-            "phpstan\/extension-installer": true,
-            "wpify\/scoper": true
+            "phpstan\/extension-installer": true
         }
     },
     "autoload": {
         "psr-4": {
-            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\": "includes",
-            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\PHPUnit\\": "tests\/phpunit",
-            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\Scoper\\": "Scoper"
+            "Bmd\\WPFramework\\": "includes",
+            "Bmd\\WPFramework\\PHPUnit\\": "tests\/phpunit"
         }
     },
     "require-dev": {
