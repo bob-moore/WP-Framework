@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Action Loader trait definition file
+ * Filter Loader trait definition file
  *
  * PHP Version 8.2
  *
@@ -10,20 +11,21 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
-namespace Bmd\WPFramework\Core\Traits;
+namespace Bmd\WPFramework\Traits;
 
 /**
  * Action Loader trait
  *
  * @subpackage Traits
  */
-trait ActionLoader {
-	/**
-	 * Mount actions for this class
-	 *
-	 * @return void
-	 */
-	public function mountActions(): void {
-	}
+trait FilterLoader
+{
+    /**
+     * Mount filters for this class
+     *
+     * @return void
+     */
+    public function mountFilters(): void
+    {
+    }
 }

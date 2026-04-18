@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PostMeta Service Test
  *
@@ -11,16 +12,10 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Services;
 
-use Mwf\Cornerstone\Services\PostMeta,
-    Mwf\Cornerstone\Core\Interfaces,
-    Mwf\Cornerstone\PHPUnit\Partials;
-
-use WP_Mock,
-    WP_Mock\Tools\TestCase as TestCase;
-
+use Mwf\Cornerstone\Services\PostMeta, Mwf\Cornerstone\Interfaces, Mwf\Cornerstone\PHPUnit\Partials;
+use WP_Mock, WP_Mock\Tools\TestCase as TestCase;
 /**
  * Services/PostMeta Test Case
  * 
@@ -43,8 +38,7 @@ final class PostMetaTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->module = new PostMeta( TEST_UNIT_PACKAGE_NAME );
+        $this->module = new PostMeta(TEST_UNIT_PACKAGE_NAME);
     }
     /**
      * Nullify the service class to start fresh on the next test
@@ -54,7 +48,6 @@ final class PostMetaTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-
         $this->module = null;
     }
     /**
@@ -66,29 +59,29 @@ final class PostMetaTest extends TestCase
      *
      * @return void
      */
-    public function testFetch(): void 
+    public function testFetch(): void
     {
-        WP_Mock::userFunction('get_post_meta', [
-            'return' => function( $post_id, $key, $single ) {
-                return match ( true ) {
-                    $post_id === 0 => false, // post does not exist.
-                    $key === 'meta_key' => 'Meta Value', // post and key exist.
-                    default => '', // post exists, key does not.
-                };
-            }
-        ] );
+        WP_Mock::userFunction('get_post_meta', ['return' => function ($post_id, $key, $single) {
+            return match (\true) {
+                $post_id === 0 => \false,
+                // post does not exist.
+                $key === 'meta_key' => 'Meta Value',
+                // post and key exist.
+                default => '',
+            };
+        }]);
         /**
          * Test the fetch method with a post and key that exist
-         */   
-        $this->assertEquals( 'Meta Value', $this->module->fetch( 1, 'meta_key' ) );
+         */
+        $this->assertEquals('Meta Value', $this->module->fetch(1, 'meta_key'));
         /**
          * Test the fetch method with a post that exists and a key that does not
          */
-        $this->assertEquals( '', $this->module->fetch( 1, 'non_existing_key' ) );
+        $this->assertEquals('', $this->module->fetch(1, 'non_existing_key'));
         /**
          * Test the fetch method with a post that does not exist
          */
-        $this->assertFalse( $this->module->fetch( 0, 'meta_key' ) );
+        $this->assertFalse($this->module->fetch(0, 'meta_key'));
     }
     /**
      * Test the fetch method with a filter
@@ -102,12 +95,8 @@ final class PostMetaTest extends TestCase
      */
     public function testFetchFilterApplies(): void
     {
-        WP_Mock::userFunction('get_post_meta')->andReturn( 'Meta Value' );
-
-        WP_Mock::onFilter( "{$this->module->getPackage()}_post_meta" )
-            ->with( 'Meta Value', 1, 'meta_key' )
-            ->reply( 'Filtered Value' );
-
-        $this->assertEquals( 'Filtered Value', $this->module->fetch( 1, 'meta_key' ) );
+        WP_Mock::userFunction('get_post_meta')->andReturn('Meta Value');
+        WP_Mock::onFilter("{$this->module->getPackage()}_post_meta")->with('Meta Value', 1, 'meta_key')->reply('Filtered Value');
+        $this->assertEquals('Filtered Value', $this->module->fetch(1, 'meta_key'));
     }
 }

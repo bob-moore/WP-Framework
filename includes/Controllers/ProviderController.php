@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Provider Controller
  *
@@ -14,16 +15,10 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Bmd\WPFramework\Controllers;
 
-use Bmd\WPFramework\Providers,
-	Bmd\WPFramework\Services\ServiceLocator,
-	Bmd\WPFramework\Core\Abstracts;
-
+use Bmd\WPFramework\Providers, Bmd\WPFramework\Services\ServiceLocator, Bmd\WPFramework\Abstracts;
 use DI\Attribute\Inject;
-
-
 /**
  * Provider Controller Class
  *
@@ -36,39 +31,36 @@ use DI\Attribute\Inject;
  */
 class ProviderController extends Abstracts\Controller
 {
-	/**
-	 * Get service container definitions
-	 *
-	 * Defines the providers that should be available in the service container.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 *
-	 * @return array<string, mixed> Array of service definitions.
-	 */
-	public static function getServiceDefinitions(): array
-	{
-		return [
-			Providers\Context::class => ServiceLocator::autowire(),
-		];
-	}
-
-	/**
-	 * Mount Context Provider
-	 *
-	 * Sets up context-aware functionality for both frontend and admin areas.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 *
-	 * @param Providers\Context $provider Instance of Context provider.
-	 *
-	 * @return void
-	 */
-	#[Inject]
-	public function mountContext( Providers\Context $provider ): void
-	{
-		add_action( 'wp', [ $provider, 'dispatch' ], 4 );
-		add_action( 'current_screen', [ $provider, 'dispatch' ], 4 );
-	}
+    /**
+     * Get service container definitions
+     *
+     * Defines the providers that should be available in the service container.
+     *
+     * @since  1.0.0
+     * @access public
+     *
+     * @return array<string, mixed> Array of service definitions.
+     */
+    public static function getServiceDefinitions(): array
+    {
+        return [Providers\Context::class => ServiceLocator::autowire()];
+    }
+    /**
+     * Mount Context Provider
+     *
+     * Sets up context-aware functionality for both frontend and admin areas.
+     *
+     * @since  1.0.0
+     * @access public
+     *
+     * @param Providers\Context $provider Instance of Context provider.
+     *
+     * @return void
+     */
+    #[Inject]
+    public function mountContext(Providers\Context $provider): void
+    {
+        add_action('wp', [$provider, 'dispatch'], 4);
+        add_action('current_screen', [$provider, 'dispatch'], 4);
+    }
 }

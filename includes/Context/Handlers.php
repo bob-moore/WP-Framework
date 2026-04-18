@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Context Type Enum
  *
@@ -10,7 +11,6 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Bmd\WPFramework\Context;
 
 /**
@@ -20,28 +20,14 @@ namespace Bmd\WPFramework\Context;
  *
  * @subpackage Context
  */
-enum Handlers: string
+enum Handlers : string
 {
-	/** Archive page handler */
-	case ARCHIVE = Archive::class;
-	/** Search results page handler */
-	case SEARCH = Search::class;
-	/** Blog posts page handler */
-	case BLOG = Blog::class;
-	/** Single post/page handler */
-	case SINGLE = Single::class;
-	/** WordPress admin area handler */
-	case ADMIN = Admin::class;
-	/** Block editor handler */
-	case EDITOR = Editor::class;
-	/** Front page handler */
-	case FRONTPAGE = Frontpage::class;
-	/** General frontend handler */
-	case FRONTEND = Frontend::class;
-	/** 404 error page handler */
-	case ERROR404 = Error404::class;
-	/** Login page handler */
-	case LOGIN = Login::class;
-	/** No specific handler */
-	case NONE = '';
+    /** WordPress admin area handler */
+    case ADMIN = Admin::class;
+    /** General frontend handler */
+    case FRONTEND = Frontend::class;
+    /** Login page handler */
+    case LOGIN = Login::class;
+    /** No specific handler */
+    case NONE = '';
 }

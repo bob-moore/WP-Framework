@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Controller interface definition
  *
@@ -10,21 +11,19 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
-namespace Bmd\WPFramework\Core\Interfaces;
+namespace Bmd\WPFramework\Interfaces;
 
 /**
  * Define controller requirements
  *
  * @subpackage Interfaces
  */
-
 interface Controller
 {
-	/**
-	 * Return an array of service definitions
-	 *
-	 * @return array<string, mixed>
-	 */
-	public static function getServiceDefinitions(): array;
+    /**
+     * Return an array of service definitions
+     *
+     * @return array<string, mixed>
+     */
+    public static function getServiceDefinitions(): array;
 }

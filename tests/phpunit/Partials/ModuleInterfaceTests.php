@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File Path Resolver Service Test
  *
@@ -11,11 +12,9 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Partials;
 
-use Mwf\Cornerstone\Core\Interfaces;
-
+use Mwf\Cornerstone\Interfaces;
 trait ModuleInterfaceTests
 {
     /**
@@ -26,9 +25,9 @@ trait ModuleInterfaceTests
      *
      * @return void
      */
-    public function testImplementsModuleInterface( ?object $module = null ): void
+    public function testImplementsModuleInterface(?object $module = null): void
     {
-        $this->assertInstanceOf( Interfaces\Module::class, $module ?? $this->module );
+        $this->assertInstanceOf(Interfaces\Module::class, $module ?? $this->module);
     }
     /**
      * Test the package setter
@@ -40,21 +39,14 @@ trait ModuleInterfaceTests
      *
      * @return void
      */
-    public function testModuleSettersGetters( ?object $module = null ): void
+    public function testModuleSettersGetters(?object $module = null): void
     {
         $testModule = $module ?? $this->module;
-
-        $testModule->setPackage( 'new_package_name' );
-
-        $this->assertEquals( 'new_package_name', $testModule->getPackage() );
-
-        $testModule->setPackage( 'new/package/name' );
-
-        $this->assertEquals( 'new_package_name', $testModule->getPackage() );
-
-        $testModule->setPackage( 'New\\Package\\Name' );
-
-        $this->assertEquals( 'new_package_name', $testModule->getPackage() );
+        $testModule->setPackage('new_package_name');
+        $this->assertEquals('new_package_name', $testModule->getPackage());
+        $testModule->setPackage('new/package/name');
+        $this->assertEquals('new_package_name', $testModule->getPackage());
+        $testModule->setPackage('New\Package\Name');
+        $this->assertEquals('new_package_name', $testModule->getPackage());
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File Path Resolver Service Test
  *
@@ -11,12 +12,10 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Middleware;
 
 use Mwf\Cornerstone\Middleware\Scope;
 use Mwf\Cornerstone\PHPUnit\Abstracts;
-
 final class ScopeTest extends Abstracts\ModuleTestCase
 {
     /**
@@ -26,8 +25,7 @@ final class ScopeTest extends Abstracts\ModuleTestCase
      */
     public function setUp(): void
     {
-        $this->setModule( Scope::class );
-
+        $this->setModule(Scope::class);
         parent::setUp();
     }
     /**
@@ -42,13 +40,9 @@ final class ScopeTest extends Abstracts\ModuleTestCase
      */
     public function testTitle(): void
     {
-        $this->assertEquals( 'Title', $this->module->title( 'Title' ) );
-
-        \WP_Mock::onFilter( "{$this->package}_page_title" )
-            ->with( 'Title' )
-            ->reply( 'Filtered Title' );
-
-        $this->assertEquals( 'Filtered Title', $this->module->title( 'Title' ) );
+        $this->assertEquals('Title', $this->module->title('Title'));
+        \WP_Mock::onFilter("{$this->package}_page_title")->with('Title')->reply('Filtered Title');
+        $this->assertEquals('Filtered Title', $this->module->title('Title'));
     }
     /**
      * Test __call magic method
@@ -63,8 +57,8 @@ final class ScopeTest extends Abstracts\ModuleTestCase
      */
     public function testFunctionCall(): void
     {
-        $this->assertEquals( get_the_title(), $this->module->get_the_title() );
-        $this->assertEquals( get_the_title(), $this->module->the_title() );
-        $this->assertEmpty( $this->module->non_existing_function() );
+        $this->assertEquals(get_the_title(), $this->module->get_the_title());
+        $this->assertEquals(get_the_title(), $this->module->the_title());
+        $this->assertEmpty($this->module->non_existing_function());
     }
 }

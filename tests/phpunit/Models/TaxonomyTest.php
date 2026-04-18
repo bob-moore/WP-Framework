@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File Path Resolver Service Test
  *
@@ -11,19 +12,13 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Models;
 
 use Mwf\Cornerstone\Models\Taxonomies as Taxonomy;
 use WP_Mock\Tools\TestCase as TestCase;
-
 final class TaxonomyTest extends TestCase
 {
-
-    const TAXONOMIES = [
-        Taxonomy\PageCategory::class,
-        Taxonomy\PageTag::class,
-    ];
+    const TAXONOMIES = [Taxonomy\PageCategory::class, Taxonomy\PageTag::class];
     /**
      * Test getter functions
      *
@@ -33,12 +28,10 @@ final class TaxonomyTest extends TestCase
      */
     public function testGetters(): void
     {
-        foreach ( self::TAXONOMIES as $tax_class ) {
-            
+        foreach (self::TAXONOMIES as $tax_class) {
             $taxonomy = new $tax_class();
-
-            $this->assertIsString( $taxonomy->getName() );
-            $this->assertIsArray( $taxonomy->getPostTypes() );
+            $this->assertIsString($taxonomy->getName());
+            $this->assertIsArray($taxonomy->getPostTypes());
         }
     }
     /**
@@ -49,14 +42,12 @@ final class TaxonomyTest extends TestCase
      */
     public function testDefinition(): void
     {
-        foreach ( self::TAXONOMIES as $tax_class ) {
+        foreach (self::TAXONOMIES as $tax_class) {
             $taxonomy = new $tax_class();
-
             $definition = $taxonomy->getDefinition();
-
-            $this->assertIsArray( $definition );
-            $this->assertArrayHasKey( 'labels', $definition );
-            $this->assertArrayHasKey( 'post_types', $definition );
+            $this->assertIsArray($definition);
+            $this->assertArrayHasKey('labels', $definition);
+            $this->assertArrayHasKey('post_types', $definition);
         }
     }
 }

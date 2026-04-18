@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin bootstrap file
  *
@@ -24,17 +25,15 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: bmd_wpframework
  */
-
 namespace Bmd\WPFramework;
 
-defined( 'ABSPATH' ) || exit;
-
+defined('ABSPATH') || exit;
 try {
-    require_once plugin_dir_path( '/vendor/scoped/autoload.php' );
-    require_once plugin_dir_path( '/vendor/scoped/scoper-autoload.php' );
-    require_once plugin_dir_path( '/vendor/autoload.php' );
+    require_once plugin_dir_path('/vendor/scoped/autoload.php');
+    require_once plugin_dir_path('/vendor/scoped/scoper-autoload.php');
+    require_once plugin_dir_path('/vendor/autoload.php');
     $plugin = new Main();
     $plugin->mount();
-} catch ( \Error $e ) {
-    error_log( $e->getMessage() );
+} catch (\Error $e) {
+    error_log($e->getMessage());
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Frontend Context Handler Definition
  *
@@ -10,12 +11,9 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Bmd\WPFramework\Context;
 
-use Bmd\WPFramework\Core\Abstracts;
-
-
+use Bmd\WPFramework\Abstracts;
 /**
  * Frontend context handler
  *
@@ -23,21 +21,14 @@ use Bmd\WPFramework\Core\Abstracts;
  */
 class Login extends Abstracts\ContextHandler
 {
-	/**
-	 * Enqueue styles and JS bundles
-	 *
-	 * @return void
-	 */
-	public function enqueueAssets(): void
-	{
-		$this->enqueueScript(
-			handle: "{$this->package}-login",
-			path: 'dist/build/login.js'
-		);
-
-		$this->enqueueStyle(
-			handle: "{$this->package}-login",
-			path: 'dist/build/login.css'
-		);
-	}
+    /**
+     * Enqueue styles and JS bundles
+     *
+     * @return void
+     */
+    public function enqueueAssets(): void
+    {
+        $this->enqueueScript(handle: "{$this->package}-login", path: 'dist/build/login.js');
+        $this->enqueueStyle(handle: "{$this->package}-login", path: 'dist/build/login.css');
+    }
 }

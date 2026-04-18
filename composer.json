@@ -1,9 +1,9 @@
 {
-    "name": "bmd/wp-framework",
+    "name": "bmd\/wp-framework",
     "description": "Generic WordPress framework plugin",
     "type": "library",
-   "license": "GPL-2.0-or-later",
-    "version": "1.0.0",
+    "license": "GPL-2.0-or-later",
+    "version": "1.1.0",
     "author": "Bob Moore",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -14,40 +14,40 @@
             "php": "8.1"
         },
         "allow-plugins": {
-            "composer/installers": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true,
-            "wpify/scoper": true
+            "composer\/installers": true,
+            "dealerdirect\/phpcodesniffer-composer-installer": true,
+            "phpstan\/extension-installer": true,
+            "wpify\/scoper": true
         }
     },
     "autoload": {
         "psr-4": {
-            "Bmd\\WPFramework\\": "includes",
-            "Bmd\\WPFramework\\PHPUnit\\": "tests/phpunit",
-            "Bmd\\WPFramework\\Scoper\\": "Scoper"
+            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\": "includes",
+            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\PHPUnit\\": "tests\/phpunit",
+            "Mwf\\Canvas\\Deps\\Bmd\\WPFramework\\Scoper\\": "Scoper"
         }
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7",
-        "phpunit/phpunit": "^9.6",
-        "symfony/var-dumper": "*",
-        "wp-coding-standards/wpcs": "^3.0",
-        "phpstan/phpstan": "^1.10",
-        "szepeviktor/phpstan-wordpress": "^1.3",
-        "phpcsstandards/phpcsutils": "^1.0",
-        "10up/wp_mock": "*"
+        "squizlabs\/php_codesniffer": "^3.7",
+        "phpunit\/phpunit": "^9.6",
+        "symfony\/var-dumper": "*",
+        "wp-coding-standards\/wpcs": "^3.0",
+        "phpstan\/phpstan": "^1.10",
+        "szepeviktor\/phpstan-wordpress": "^1.3",
+        "phpcsstandards\/phpcsutils": "^1.0",
+        "10up\/wp_mock": "*"
     },
     "scripts": {
-        "phpstan": "./vendor/bin/phpstan analyze -c ./tests/phpstan.neon --memory-limit=2048M",
-        "phpsniff": "./vendor/bin/phpcs ./includes -v --standard='./tests/phpcs.xml'",
-        "phpsniff:fix": "./vendor/bin/phpcbf ./includes -v --standard='./tests/phpcs.xml'",
-        "phpsniff:default": "./vendor/bin/phpcs ./includes -v",
-        "phpsniff:PSR12": "./vendor/bin/phpcs ./includes -v --standard='PSR12'",
-        "phpsniff:PSR2": "./vendor/bin/phpcs ./includes -v --standard='PSR2'",
-        "phpsniff:WP": "./vendor/bin/phpcs ./includes -v --standard='WordPress'",
-        "phpunit": "./vendor/bin/phpunit --configuration ./tests/phpunit.xml --verbose"
+        "phpstan": ".\/vendor\/bin\/phpstan analyze -c .\/tests\/phpstan.neon --memory-limit=2048M",
+        "phpsniff": ".\/vendor\/bin\/phpcs .\/includes -v --standard='.\/tests\/phpcs.xml'",
+        "phpsniff:fix": ".\/vendor\/bin\/phpcbf .\/includes -v --standard='.\/tests\/phpcs.xml'",
+        "phpsniff:default": ".\/vendor\/bin\/phpcs .\/includes -v",
+        "phpsniff:PSR12": ".\/vendor\/bin\/phpcs .\/includes -v --standard='PSR12'",
+        "phpsniff:PSR2": ".\/vendor\/bin\/phpcs .\/includes -v --standard='PSR2'",
+        "phpsniff:WP": ".\/vendor\/bin\/phpcs .\/includes -v --standard='WordPress'",
+        "phpunit": ".\/vendor\/bin\/phpunit --configuration .\/tests\/phpunit.xml --verbose"
     },
     "require": {
-        "php-di/php-di": "*"
+        "php-di\/php-di": "*"
     }
 }

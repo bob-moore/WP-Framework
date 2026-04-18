@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File Path Resolver Service Test
  *
@@ -11,12 +12,10 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Services;
 
 use Mwf\Cornerstone\Services\FilePathResolver;
 use Mwf\Cornerstone\PHPUnit\Abstracts;
-
 final class FilePathResolverTest extends Abstracts\ModuleTestCase
 {
     /**
@@ -26,8 +25,7 @@ final class FilePathResolverTest extends Abstracts\ModuleTestCase
      */
     public function setUp(): void
     {
-        $this->setModule( FilePathResolver::class, __DIR__ );
-
+        $this->setModule(FilePathResolver::class, __DIR__);
         parent::setUp();
     }
     /**
@@ -44,15 +42,15 @@ final class FilePathResolverTest extends Abstracts\ModuleTestCase
         /**
          * Ensure return is the same as the root directory
          */
-        $this->assertEquals( __DIR__, $this->module->resolve() );
+        $this->assertEquals(__DIR__, $this->module->resolve());
         /**
          * Ensure result never has a trailing slash
          */
-        $this->assertEquals( __DIR__ . '/Routes/Error404', $this->module->resolve( 'Routes/Error404/' ) );
-        $this->assertEquals( __DIR__ . '/Routes/Error404', $this->module->resolve( 'Routes/Error404' ) );
+        $this->assertEquals(__DIR__ . '/Routes/Error404', $this->module->resolve('Routes/Error404/'));
+        $this->assertEquals(__DIR__ . '/Routes/Error404', $this->module->resolve('Routes/Error404'));
         /**
          * Ensure blank characters are removed
          */
-        $this->assertEquals( __DIR__, $this->module->resolve( '  ' ) );
+        $this->assertEquals(__DIR__, $this->module->resolve('  '));
     }
 }

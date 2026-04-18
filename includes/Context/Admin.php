@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin Context Handler Definition
  *
@@ -10,11 +11,9 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Bmd\WPFramework\Context;
 
-use Bmd\WPFramework\Core\Abstracts;
-
+use Bmd\WPFramework\Abstracts;
 /**
  * Admin context handler
  *
@@ -24,23 +23,27 @@ use Bmd\WPFramework\Core\Abstracts;
  */
 class Admin extends Abstracts\ContextHandler
 {
-	/**
-	 * Enqueue admin styles and JS bundles
-	 *
-	 * Loads the main admin JavaScript and CSS files for the WordPress admin area
-	 *
-	 * @return void
-	 */
-	public function enqueueAssets(): void
-	{
-		// do_action( 'qm/debug', $this );
-		$this->enqueueScript(
-			handle: "{$this->package}-admin",
-			path: 'dist/build/scripts/admin.bundle.js'
-		);
-		$this->enqueueStyle(
-			handle: "{$this->package}-admin",
-			path: 'dist/build/admin.css'
-		);
-	}
+    /**
+     * Enqueue admin styles and JS bundles
+     *
+     * Loads the main admin JavaScript and CSS files for the WordPress admin area
+     *
+     * @return void
+     */
+    public function enqueueAssets(): void
+    {
+        // do_action( 'qm/debug', $this );
+        $this->enqueueScript(handle: "{$this->package}-admin", path: 'dist/build/scripts/admin.bundle.js');
+        $this->enqueueStyle(handle: "{$this->package}-admin", path: 'dist/build/admin.css');
+    }
+    /**
+     * Enqueue assets for the block editor
+     *
+     * @return void
+     */
+    public function enqueueEditorAssets(): void
+    {
+        $this->enqueueScript(handle: "{$this->package}-editor", path: 'dist/build/editor.js');
+        $this->enqueueStyle(handle: "{$this->package}-editor", path: 'dist/build/editor.css');
+    }
 }

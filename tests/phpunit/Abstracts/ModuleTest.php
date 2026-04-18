@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PostMeta Service Test
  *
@@ -11,13 +12,11 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-
 namespace Mwf\Cornerstone\PHPUnit\Abstracts;
 
 use Mwf\Cornerstone\Services\PostMeta;
 use WP_Mock\Tools\TestCase as TestCase;
 use ReflectionClass;
-
 abstract class ModuleTestCase extends TestCase
 {
     /**
@@ -39,11 +38,10 @@ abstract class ModuleTestCase extends TestCase
      *
      * @return void
      */
-    protected function setModule( string $class, ...$args ): void
+    protected function setModule(string $class, ...$args): void
     {
-        array_push( $args, $this->package );
-
-        $this->module = new $class( ...$args );
+        array_push($args, $this->package);
+        $this->module = new $class(...$args);
     }
     /**
      * Nullify the service class to start fresh on the next test
@@ -53,7 +51,6 @@ abstract class ModuleTestCase extends TestCase
     public function tearDown(): void
     {
         $this->module = null;
-
         parent::tearDown();
     }
     /**
@@ -67,13 +64,10 @@ abstract class ModuleTestCase extends TestCase
      */
     public function testPackageProperty(): void
     {
-        $reflection = new ReflectionClass( $this->module );
-        
-        $package = $reflection->getProperty( 'package' );
-        
-        $package->setAccessible(true);
-
-        $this->assertEquals( $this->package, $package->getValue( $this->module ) );
+        $reflection = new ReflectionClass($this->module);
+        $package = $reflection->getProperty('package');
+        $package->setAccessible(\true);
+        $this->assertEquals($this->package, $package->getValue($this->module));
     }
     /**
      * Test the package setter
@@ -86,16 +80,11 @@ abstract class ModuleTestCase extends TestCase
      */
     public function testSettersGetters(): void
     {
-        $this->module->setPackage( 'new_package_name' );
-
-        $this->assertEquals( 'new_package_name', $this->module->getPackage() );
-
-        $this->module->setPackage( 'new/package/name' );
-
-        $this->assertEquals( 'new_package_name', $this->module->getPackage() );
-
-        $this->module->setPackage( 'New\\Package\\Name' );
-
-        $this->assertEquals( 'new_package_name', $this->module->getPackage() );
+        $this->module->setPackage('new_package_name');
+        $this->assertEquals('new_package_name', $this->module->getPackage());
+        $this->module->setPackage('new/package/name');
+        $this->assertEquals('new_package_name', $this->module->getPackage());
+        $this->module->setPackage('New\Package\Name');
+        $this->assertEquals('new_package_name', $this->module->getPackage());
     }
 }
