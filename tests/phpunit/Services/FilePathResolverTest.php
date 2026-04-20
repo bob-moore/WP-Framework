@@ -1,56 +1,54 @@
 <?php
-
 /**
- * File Path Resolver Service Test
+ * FilePathResolver service tests.
  *
- * PHP Version 8.2
+ * Verifies path normalization behavior for directory resolution.
  *
- * @package mwf_cornerstone
+ * @package WPFramework
  * @subpackage PHPUnit/Tests/Services
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
-namespace Mwf\Cornerstone\PHPUnit\Services;
 
-use Mwf\Cornerstone\Services\FilePathResolver;
-use Mwf\Cornerstone\PHPUnit\Abstracts;
-final class FilePathResolverTest extends Abstracts\ModuleTestCase
+namespace Bmd\WPFramework\PHPUnit\Services;
+
+use Bmd\WPFramework\Services\FilePathResolver;
+use WP_Mock\Tools\TestCase as TestCase;
+use Bmd\WPFramework\PHPUnit\Traits\ModuleTrait;
+
+/**
+ * Test suite for the FilePathResolver service.
+ */
+final class FilePathResolverTest extends TestCase
 {
+    use ModuleTrait;
+
     /**
-     * Setup the test case with a new instance of the class
+     * Fully qualified class name used by shared module trait assertions.
      *
-     * @return void
+     * @var class-string<FilePathResolver>
      */
-    public function setUp(): void
-    {
-        $this->setModule(FilePathResolver::class, __DIR__);
-        parent::setUp();
-    }
+    const TEST_CLASS = FilePathResolver::class;
+
     /**
-     * Test the package name
-     * 
-     * This test will verify that the package name is set and retrieved correctly.
-     * 
-     * @covers Mwf\Cornerstone\Services\FilePathResolver::resolve
+     * Confirms resolve() returns normalized paths for common input patterns.
      *
-     * @return void
+     * @covers \Bmd\WPFramework\Services\FilePathResolver::resolve
      */
     public function testResolve(): void
     {
-        /**
-         * Ensure return is the same as the root directory
-         */
-        $this->assertEquals(__DIR__, $this->module->resolve());
-        /**
-         * Ensure result never has a trailing slash
-         */
-        $this->assertEquals(__DIR__ . '/Routes/Error404', $this->module->resolve('Routes/Error404/'));
-        $this->assertEquals(__DIR__ . '/Routes/Error404', $this->module->resolve('Routes/Error404'));
-        /**
-         * Ensure blank characters are removed
-         */
-        $this->assertEquals(__DIR__, $this->module->resolve('  '));
+        $resolver = new FilePathResolver( __DIR__, 'mwf_blocks' );
+
+        // No append argument should return the base directory unchanged.
+        $this->assertSame( __DIR__, $resolver->resolve() );
+
+        // Appended segments should be normalized to a single path without trailing slash.
+        $this->assertSame( __DIR__ . '/Routes/Error404', $resolver->resolve( 'Routes/Error404/' ) );
+        $this->assertSame( __DIR__ . '/Routes/Error404', $resolver->resolve( 'Routes/Error404' ) );
+
+        // Whitespace-only append input should be treated as empty.
+        $this->assertSame( __DIR__, $resolver->resolve( '  ' ) );
     }
 }
