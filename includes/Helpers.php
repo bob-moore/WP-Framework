@@ -239,6 +239,14 @@ class Helpers
     {
         return strtolower(str_replace(['\\', '/', ' ', '_'], '-', $raw_string));
     }
+    /**
+     * Merge two arrays
+     *
+     * @param array $array1 : first array to merge.
+     * @param array $array2 : second array to merge.
+     *
+     * @return array
+     */
     public static function arrayMerge(array $array1, array $array2): array
     {
         $merged = $array1;

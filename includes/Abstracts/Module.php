@@ -13,7 +13,9 @@
  */
 namespace Bmd\WPFramework\Abstracts;
 
-use Bmd\WPFramework\Interfaces;
+use Bmd\WPFramework\Interfaces,
+     Bmd\WPFramework\Helpers;
+
 use DI\Attribute\Inject;
 /**
  * Abstract Module class
@@ -55,7 +57,7 @@ abstract class Module implements Interfaces\Module
      */
     public function setPackage(string $package): void
     {
-        $this->package = strtolower(str_replace(['\\', '/', ' '], '_', trim($package)));
+        $this->package = Helpers::slugify($package);
     }
     /**
      * Getter for package field
