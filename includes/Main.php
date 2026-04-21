@@ -49,11 +49,15 @@ class Main
     /**
      * Set the configuration array
      *
-     * @param array<string, mixed> $config Configuration array to merge with existing config.
+    * @param array<string, mixed> $config
+    *     Configuration array to merge with existing config.
      */
     public function setConfig(array $config = []): void
     {
-        $this->config = wp_parse_args(args: $config, defaults: $this->config ?? []);
+        $this->config = wp_parse_args(
+            args: $config,
+            defaults: $this->config ?? []
+        );
     }
     /**
      * Register the configuration array
@@ -62,7 +66,20 @@ class Main
      */
     private function registerConfig(): void
     {
-        self::$service_locator->addDefinitions(definitions: wp_parse_args(args: $this->config, defaults: ['config.dir' => untrailingslashit(plugin_dir_path(__DIR__)), 'config.url' => untrailingslashit(plugin_dir_url(__DIR__)), 'config.package' => self::PACKAGE]));
+        self::$service_locator->addDefinitions(
+            definitions: wp_parse_args(
+                args: $this->config,
+                defaults: [
+                    'config.dir'     => untrailingslashit(
+                        plugin_dir_path(__DIR__)
+                    ),
+                    'config.url'     => untrailingslashit(
+                        plugin_dir_url(__DIR__)
+                    ),
+                    'config.package' => static::PACKAGE,
+                ]
+            )
+        );
     }
     /**
      * Get controller definitions to add to service container
@@ -71,7 +88,14 @@ class Main
      */
     public function registerControllers(): void
     {
-        self::$service_locator->addDefinitions([Controllers\ServiceController::class => ServiceLocator::autowire(), Controllers\ContextController::class => ServiceLocator::autowire(), Controllers\ProviderController::class => ServiceLocator::autowire()]);
+        self::$service_locator->addDefinitions([
+            Controllers\ServiceController::class  =>
+                ServiceLocator::autowire(),
+            Controllers\ContextController::class  =>
+                ServiceLocator::autowire(),
+            Controllers\ProviderController::class =>
+                ServiceLocator::autowire(),
+        ]);
     }
     /**
      * Fire Mounted action on mount
@@ -92,9 +116,15 @@ class Main
         /**
          * Instantiate the controllers.
          */
-        self::$service_locator->mountService(service: Controllers\ServiceController::class);
-        self::$service_locator->mountService(service: Controllers\ContextController::class);
-        self::$service_locator->mountService(service: Controllers\ProviderController::class);
+        self::$service_locator->mountService(
+            service: Controllers\ServiceController::class
+        );
+        self::$service_locator->mountService(
+            service: Controllers\ContextController::class
+        );
+        self::$service_locator->mountService(
+            service: Controllers\ProviderController::class
+        );
     }
     /**
      * Locate a specific service
@@ -110,7 +140,10 @@ class Main
         if (!isset(self::$service_locator)) {
             return null;
         }
-        $services = [trim($service_name), trim(__NAMESPACE__ . '\\' . $service_name)];
+        $services = [
+            trim($service_name),
+            trim(__NAMESPACE__ . '\\' . $service_name),
+        ];
         foreach ($services as $service) {
             $resolved = self::$service_locator->getService(service: $service);
             if (is_wp_error(thing: $resolved)) {
