@@ -156,9 +156,6 @@ final class ContextControllerTest extends TestCase
             ->getMock();
 
         WP_Mock::expectActionAdded( 'login_enqueue_scripts', [ $loginHandler, 'enqueueAssets' ] );
-        WP_Mock::expectActionAdded( 'login_header', [ $loginHandler, 'openLoginContainer' ], 2 );
-        WP_Mock::expectFilterAdded( 'login_message', [ $loginHandler, 'loginMessage' ] );
-        WP_Mock::expectActionAdded( 'login_footer', [ $loginHandler, 'closeLoginContainer' ], 20 );
 
         $controller = new ContextController( 'bmd_wp_framework' );
         $controller->mountLoginHandler( $loginHandler );

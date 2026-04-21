@@ -120,8 +120,5 @@ class ContextController extends Abstracts\Controller
     public function mountLoginHandler(Context\Login $handler): void
     {
         add_action('login_enqueue_scripts', [$handler, 'enqueueAssets']);
-        add_action('login_header', [$handler, 'openLoginContainer'], 2);
-        add_filter('login_message', [$handler, 'loginMessage']);
-        add_action('login_footer', [$handler, 'closeLoginContainer'], 20);
     }
 }

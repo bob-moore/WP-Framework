@@ -70,6 +70,7 @@ class Context extends Abstracts\Module
             is_singular()                   => ['SINGLE', 'FRONTEND'],
             is_404()                        => ['ERROR404', 'FRONTEND'],
             is_admin()                      => ['ADMIN'],
+            is_login()                      => ['LOGIN'],
             wp_doing_ajax()                 => ['NONE'],
             wp_doing_cron()                 => ['NONE'],
             default                         => ['FRONTEND'],
