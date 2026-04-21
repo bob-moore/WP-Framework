@@ -62,5 +62,6 @@ class ProviderController extends Abstracts\Controller
     {
         add_action('wp', [$provider, 'dispatch'], 4);
         add_action('current_screen', [$provider, 'dispatch'], 4);
+        add_action( 'login_init', [ $provider, 'dispatch' ], 4 );
     }
 }

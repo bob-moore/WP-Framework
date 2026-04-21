@@ -28,7 +28,7 @@ class Login extends Abstracts\ContextHandler
      */
     public function enqueueAssets(): void
     {
-        $this->enqueueScript(handle: "{$this->package}-login", path: 'dist/build/login.js');
-        $this->enqueueStyle(handle: "{$this->package}-login", path: 'dist/build/login.css');
+        $this->enqueueScript(handle: "{$this->package}-login", path: 'build/login.js');
+        $this->enqueueStyle(handle: "{$this->package}-login", path: 'build/login.css');
     }
 }

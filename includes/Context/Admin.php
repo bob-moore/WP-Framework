@@ -33,8 +33,8 @@ class Admin extends Abstracts\ContextHandler
     public function enqueueAssets(): void
     {
         // do_action( 'qm/debug', $this );
-        $this->enqueueScript(handle: "{$this->package}-admin", path: 'dist/build/scripts/admin.bundle.js');
-        $this->enqueueStyle(handle: "{$this->package}-admin", path: 'dist/build/admin.css');
+        $this->enqueueScript(handle: "{$this->package}-admin", path: 'build/admin.js');
+        $this->enqueueStyle(handle: "{$this->package}-admin", path: 'build/admin.css');
     }
     /**
      * Enqueue assets for the block editor
@@ -43,7 +43,7 @@ class Admin extends Abstracts\ContextHandler
      */
     public function enqueueEditorAssets(): void
     {
-        $this->enqueueScript(handle: "{$this->package}-editor", path: 'dist/build/editor.js');
-        $this->enqueueStyle(handle: "{$this->package}-editor", path: 'dist/build/editor.css');
+        $this->enqueueScript(handle: "{$this->package}-editor", path: 'build/editor.js');
+        $this->enqueueStyle(handle: "{$this->package}-editor", path: 'build/editor.css');
     }
 }

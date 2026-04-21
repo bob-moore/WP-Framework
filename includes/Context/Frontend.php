@@ -32,7 +32,7 @@ class Frontend extends Abstracts\ContextHandler
      */
     public function enqueueAssets(): void
     {
-        $this->enqueueScript(handle: "{$this->package}-frontend", path: 'dist/build/frontend.js');
-        $this->enqueueStyle(handle: "{$this->package}-frontend", path: 'dist/build/frontend.css');
+        $this->enqueueScript(handle: "{$this->package}-frontend", path: 'build/frontend.js');
+        $this->enqueueStyle(handle: "{$this->package}-frontend", path: 'build/frontend.css');
     }
 }

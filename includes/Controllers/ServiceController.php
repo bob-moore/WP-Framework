@@ -42,6 +42,11 @@ class ServiceController extends Abstracts\Controller
      */
     public static function getServiceDefinitions(): array
     {
-        return [Services\ScriptLoader::class => ServiceLocator::autowire(), Services\StyleLoader::class => ServiceLocator::autowire(), Services\FilePathResolver::class => ServiceLocator::autowire(), Services\UrlResolver::class => ServiceLocator::autowire()];
+        return [ 
+            Services\ScriptLoader::class => ServiceLocator::autowire(), 
+            Services\StyleLoader::class => ServiceLocator::autowire(), 
+            Services\FilePathResolver::class => ServiceLocator::autowire(), 
+            Services\UrlResolver::class => ServiceLocator::autowire()
+        ];
     }
 }
