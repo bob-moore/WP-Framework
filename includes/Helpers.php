@@ -98,7 +98,7 @@ class Helpers
 	public static function implements( $instance_or_class, string $interface_class ): bool
 	{
 		$class_name = is_object( $instance_or_class ) ? get_class( $instance_or_class ) : $instance_or_class;
-		if ( ! class_exists( $class_name ) ) {
+		if ( ! class_exists( $class_name ?? '' ) ) {
 			return \false;
 		}
 		return in_array( $interface_class, class_implements( $class_name ), \true );
