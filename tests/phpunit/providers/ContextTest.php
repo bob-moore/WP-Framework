@@ -12,7 +12,6 @@
 
 namespace Bmd\WPFramework\PHPUnit\Providers;
 
-use Bmd\WPFramework\Context\Handlers;
 use Bmd\WPFramework\Providers\Context;
 use WP_Mock;
 use WP_Mock\Tools\TestCase;
@@ -43,7 +42,7 @@ final class ContextTest extends TestCase
     /**
      * @covers \Bmd\WPFramework\Providers\Context::getContext
      */
-    public function testGetContextFallsBackToAdminForBlockEditorChain(): void
+    public function testGetContextReturnsEditorAdminChainForBlockEditor(): void
     {
         $this->mockDefaultContextConditionals();
 
@@ -52,31 +51,67 @@ final class ContextTest extends TestCase
 
         $provider = new Context( 'bmd_wp_framework' );
 
-        $this->assertSame( Handlers::ADMIN, $provider->getContext() );
+        $this->assertSame( [ 'EDITOR', 'ADMIN' ], $provider->getContext() );
     }
 
     /**
      * @covers \Bmd\WPFramework\Providers\Context::getContext
      */
-    public function testGetContextAppliesFilterOverride(): void
+    public function testGetContextReturnsAdminChainForAdminArea(): void
     {
         $this->mockDefaultContextConditionals();
 
         $GLOBALS['wp_framework_is_admin'] = true;
 
-        WP_Mock::onFilter( 'bmd_wp_framework_context_handler' )
-            ->with( Handlers::ADMIN, 'ADMIN' )
-            ->reply( Handlers::LOGIN );
+        $provider = new Context( 'bmd_wp_framework' );
+
+        $this->assertSame( [ 'ADMIN' ], $provider->getContext() );
+    }
+
+    /**
+     * @covers \Bmd\WPFramework\Providers\Context::getContext
+     */
+    public function testGetContextReturnsFrontendChainByDefault(): void
+    {
+        $this->mockDefaultContextConditionals();
 
         $provider = new Context( 'bmd_wp_framework' );
 
-        $this->assertSame( Handlers::LOGIN, $provider->getContext() );
+        $this->assertSame( [ 'FRONTEND' ], $provider->getContext() );
+    }
+
+    /**
+     * @covers \Bmd\WPFramework\Providers\Context::getContext
+     */
+    public function testGetContextReturnsAjaxChain(): void
+    {
+        $this->mockDefaultContextConditionals();
+
+        WP_Mock::userFunction( 'wp_doing_ajax', [ 'return' => true ] );
+
+        $provider = new Context( 'bmd_wp_framework' );
+
+        $this->assertSame( [ 'AJAX' ], $provider->getContext() );
+    }
+
+    /**
+     * @covers \Bmd\WPFramework\Providers\Context::getContext
+     */
+    public function testGetContextReturnsCronChain(): void
+    {
+        $this->mockDefaultContextConditionals();
+
+        WP_Mock::userFunction( 'wp_doing_cron', [ 'return' => true ] );
+
+        $provider = new Context( 'bmd_wp_framework' );
+
+        $this->assertSame( [ 'CRON' ], $provider->getContext() );
     }
 
     /**
      * @covers \Bmd\WPFramework\Providers\Context::dispatch
      */
-    public function testDispatchSkipsWhenContextValueIsEmpty(): void
+    public function testDispatchTriggersContextHandlerActionWithArray(): void
     {
         $provider = $this->getMockBuilder( Context::class )
             ->setConstructorArgs( [ 'bmd_wp_framework' ] )
@@ -85,7 +120,9 @@ final class ContextTest extends TestCase
 
         $provider->expects( $this->once() )
             ->method( 'getContext' )
-            ->willReturn( Handlers::NONE );
+            ->willReturn( [ 'ADMIN' ] );
+
+        WP_Mock::expectAction( 'bmd_wp_framework_dispatch_context_handler', [ 'ADMIN' ] );
 
         $provider->dispatch();
     }
@@ -93,7 +130,7 @@ final class ContextTest extends TestCase
     /**
      * @covers \Bmd\WPFramework\Providers\Context::dispatch
      */
-    public function testDispatchTriggersContextHandlerAction(): void
+    public function testDispatchAlwaysFiresAction(): void
     {
         $provider = $this->getMockBuilder( Context::class )
             ->setConstructorArgs( [ 'bmd_wp_framework' ] )
@@ -102,9 +139,9 @@ final class ContextTest extends TestCase
 
         $provider->expects( $this->once() )
             ->method( 'getContext' )
-            ->willReturn( Handlers::ADMIN );
+            ->willReturn( [ 'FRONTEND' ] );
 
-        WP_Mock::expectAction( 'bmd_wp_framework_dispatch_context_handler', Handlers::ADMIN->value );
+        WP_Mock::expectAction( 'bmd_wp_framework_dispatch_context_handler', [ 'FRONTEND' ] );
 
         $provider->dispatch();
     }

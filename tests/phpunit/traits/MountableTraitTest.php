@@ -26,7 +26,7 @@ final class MountableTraitHarness extends Module implements Interfaces\Mountable
     use Mountable;
 
     /**
-     * Tracks mount calls for assertions when needed.
+     * Tracks onMount calls for assertions when needed.
      *
      * @var int
      */
@@ -35,7 +35,7 @@ final class MountableTraitHarness extends Module implements Interfaces\Mountable
     /**
      * @return void
      */
-    public function mount(): void
+    public function onMount(): void
     {
         $this->mount_calls++;
     }
@@ -80,9 +80,9 @@ final class MountableTraitTest extends TestCase
     }
 
     /**
-     * @covers \Bmd\WPFramework\Traits\Mountable::onMount
+     * @covers \Bmd\WPFramework\Traits\Mountable::mount
      */
-    public function testOnMountRegistersAndFiresMountActionWhenNotMounted(): void
+    public function testMountRegistersAndFiresMountActionWhenNotMounted(): void
     {
         $instance = new MountableTraitHarness( 'bmd_wp_framework' );
         $hook = $instance->getClassSlug() . '_mount';
@@ -96,18 +96,18 @@ final class MountableTraitTest extends TestCase
             ]
         );
 
-        WP_Mock::expectActionAdded( $hook, [ $instance, 'mount' ], 5 );
+        WP_Mock::expectActionAdded( $hook, [ $instance, 'onMount' ], 5 );
         WP_Mock::expectAction( $hook, $instance );
 
-        $instance->onMount();
+        $instance->mount();
 
         $this->addToAssertionCount( 1 );
     }
 
     /**
-     * @covers \Bmd\WPFramework\Traits\Mountable::onMount
+     * @covers \Bmd\WPFramework\Traits\Mountable::mount
      */
-    public function testOnMountSkipsRegistrationWhenAlreadyMounted(): void
+    public function testMountSkipsRegistrationWhenAlreadyMounted(): void
     {
         $instance = new MountableTraitHarness( 'bmd_wp_framework' );
         $hook = $instance->getClassSlug() . '_mount';
@@ -121,9 +121,9 @@ final class MountableTraitTest extends TestCase
             ]
         );
 
-        WP_Mock::expectActionNotAdded( $hook, [ $instance, 'mount' ], 5 );
+        WP_Mock::expectActionNotAdded( $hook, [ $instance, 'onMount' ], 5 );
 
-        $instance->onMount();
+        $instance->mount();
 
         $this->addToAssertionCount( 1 );
     }

@@ -47,6 +47,10 @@ final class ContextControllerTest extends TestCase
         $this->assertArrayHasKey( Context\Frontend::class, $definitions );
         $this->assertArrayHasKey( Context\Admin::class, $definitions );
         $this->assertArrayHasKey( Context\Login::class, $definitions );
+        $this->assertArrayHasKey( 'FRONTEND', $definitions );
+        $this->assertArrayHasKey( 'ADMIN', $definitions );
+        $this->assertArrayHasKey( 'LOGIN', $definitions );
+        $this->assertSame( Context\Admin::class, $definitions['ADMIN'] );
     }
 
     /**
@@ -57,7 +61,6 @@ final class ContextControllerTest extends TestCase
         $controller = new ContextController( 'bmd_wp_framework' );
 
         WP_Mock::expectActionAdded( 'bmd_wp_framework_dispatch_context_handler', [ $controller, 'loadContextHandler' ] );
-        WP_Mock::expectActionAdded( 'bmd_wp_framework_mount_context_handler', [ $controller, 'mountContextHandler' ] );
 
         $controller->mountActions();
 
@@ -69,21 +72,6 @@ final class ContextControllerTest extends TestCase
      */
     public function testLoadContextHandlerSkipsNonContextHandlerClass(): void
     {
-        $controller = new ContextController( 'bmd_wp_framework' );
-        $controller->loadContextHandler( \stdClass::class );
-
-        $this->addToAssertionCount( 1 );
-    }
-
-    /**
-     * @covers \Bmd\WPFramework\Controllers\ContextController::loadContextHandler
-     */
-    public function testLoadContextHandlerDispatchesResolvedHandler(): void
-    {
-        $resolvedHandler = $this->getMockBuilder( Context\Admin::class )
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $locator = $this->getMockBuilder( ServiceLocator::class )
             ->disableOriginalConstructor()
             ->onlyMethods( [ 'getService' ] )
@@ -91,17 +79,55 @@ final class ContextControllerTest extends TestCase
 
         $locator->expects( $this->once() )
             ->method( 'getService' )
-            ->with( Context\Admin::class )
-            ->willReturn( $resolvedHandler );
+            ->with( \stdClass::class )
+            ->willReturn( null );
 
         $reflection = new \ReflectionClass( Main::class );
         $locatorProperty = $reflection->getProperty( 'service_locator' );
         $locatorProperty->setValue( null, $locator );
 
-        WP_Mock::expectAction( 'bmd_wp_framework_mount_context_handler', $resolvedHandler );
+        $controller = new ContextController( 'bmd_wp_framework' );
+        $controller->loadContextHandler( [ \stdClass::class ] );
+
+        $this->addToAssertionCount( 1 );
+    }
+
+    /**
+     * @covers \Bmd\WPFramework\Controllers\ContextController::loadContextHandler
+     */
+    public function testLoadContextHandlerResolvesFirstMatchingHandler(): void
+    {
+        $locator = $this->getMockBuilder( ServiceLocator::class )
+            ->disableOriginalConstructor()
+            ->onlyMethods( [ 'getService' ] )
+            ->getMock();
+
+        // First call resolves the name alias ('ADMIN') → the class name string
+        $locator->expects( $this->exactly( 2 ) )
+            ->method( 'getService' )
+            ->willReturnCallback( function ( string $service ) {
+                if ( 'ADMIN' === $service ) {
+                    return Context\Admin::class;
+                }
+                // Second call: locate the actual instance to trigger mount
+                return $this->getMockBuilder( Context\Admin::class )
+                    ->disableOriginalConstructor()
+                    ->getMock();
+            } );
+
+        $reflection = new \ReflectionClass( Main::class );
+        $locatorProperty = $reflection->getProperty( 'service_locator' );
+        $locatorProperty->setValue( null, $locator );
+
+        WP_Mock::expectActionAdded(
+            'bmd_wpframework_context_admin_mount',
+            $this->anything()
+        );
 
         $controller = new ContextController( 'bmd_wp_framework' );
-        $controller->loadContextHandler( Context\Admin::class );
+        $controller->loadContextHandler( [ 'ADMIN' ] );
+
+        $this->addToAssertionCount( 1 );
     }
 
     /**

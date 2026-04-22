@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Filter Loader trait definition file
  *
@@ -11,6 +10,7 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Traits;
 
 /**
@@ -20,12 +20,12 @@ namespace Bmd\WPFramework\Traits;
  */
 trait FilterLoader
 {
-    /**
-     * Mount filters for this class
-     *
-     * @return void
-     */
-    public function mountFilters(): void
-    {
-    }
+	/**
+	 * Mount filters for this class
+	 *
+	 * @return void
+	 */
+	public function mountFilters(): void
+	{
+	}
 }

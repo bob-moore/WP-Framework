@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Context Type Enum
  *
@@ -11,6 +10,7 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Context;
 
 /**
@@ -22,12 +22,12 @@ namespace Bmd\WPFramework\Context;
  */
 enum Handlers : string
 {
-    /** WordPress admin area handler */
-    case ADMIN = Admin::class;
-    /** General frontend handler */
-    case FRONTEND = Frontend::class;
-    /** Login page handler */
-    case LOGIN = Login::class;
-    /** No specific handler */
-    case NONE = '';
+	/** WordPress admin area handler */
+	case ADMIN = Admin::class;
+	/** General frontend handler */
+	case FRONTEND = Frontend::class;
+	/** Login page handler */
+	case LOGIN = Login::class;
+	/** No specific handler */
+	case NONE = '';
 }

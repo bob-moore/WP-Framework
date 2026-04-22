@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Module definition file
  *
@@ -11,11 +10,13 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Abstracts;
 
-use Bmd\WPFramework\Interfaces,
-     Bmd\WPFramework\Helpers;
-
+use Bmd\WPFramework\ {
+	Interfaces,
+	Helpers
+};
 use DI\Attribute\Inject;
 /**
  * Abstract Module class
@@ -27,45 +28,45 @@ use DI\Attribute\Inject;
  */
 abstract class Module implements Interfaces\Module
 {
-    /**
-     * Package this service belongs to
-     *
-     * $package defines a group of classes used together. For instance, classes
-     * outside of this plugin can extend this class, as part of a theme package.
-     *
-     * @var string
-     */
-    #[Inject('config.package')]
-    protected string $package = '';
-    /**
-     * Public constructor
-     *
-     * @param string $package : optional package name to set.
-     */
-    public function __construct(string $package = '')
-    {
-        if (!empty($package)) {
-            $this->setPackage($package);
-        }
-    }
-    /**
-     * Setter for package field
-     *
-     * @param string $package : string to set package to, transformed to Underscore separated & lowercase.
-     *
-     * @return void
-     */
-    public function setPackage(string $package): void
-    {
-        $this->package = Helpers::slugify($package);
-    }
-    /**
-     * Getter for package field
-     *
-     * @return string
-     */
-    public function getPackage(): string
-    {
-        return $this->package;
-    }
+	/**
+	 * Package this service belongs to
+	 *
+	 * $package defines a group of classes used together. For instance, classes
+	 * outside of this plugin can extend this class, as part of a theme package.
+	 *
+	 * @var string
+	 */
+	#[Inject( 'config.package' )]
+	protected string $package = '';
+	/**
+	 * Public constructor
+	 *
+	 * @param string $package : optional package name to set.
+	 */
+	public function __construct( string $package = '' )
+	{
+		if ( ! empty( $package ) ) {
+			$this->setPackage( $package );
+		}
+	}
+	/**
+	 * Setter for package field
+	 *
+	 * @param string $package : string to set package to, transformed to Underscore separated & lowercase.
+	 *
+	 * @return void
+	 */
+	public function setPackage( string $package ): void
+	{
+		$this->package = Helpers::slugify( $package );
+	}
+	/**
+	 * Getter for package field
+	 *
+	 * @return string
+	 */
+	public function getPackage(): string
+	{
+		return $this->package;
+	}
 }

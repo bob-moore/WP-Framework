@@ -1,5 +1,4 @@
 <?php
-
 /**
  * MountableComponent definition file
  *
@@ -11,9 +10,13 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Abstracts;
 
-use Bmd\WPFramework\Interfaces, Bmd\WPFramework\Traits;
+use Bmd\WPFramework\ {
+	Interfaces,
+	Traits
+};
 use DI\Attribute\Inject;
 /**
  * Abstract ActionModule class
@@ -24,26 +27,27 @@ use DI\Attribute\Inject;
  */
 abstract class Controller extends Module implements Interfaces\Controller, Interfaces\Mountable
 {
-    use Traits\Mountable;
-    use Traits\ActionLoader;
-    use Traits\FilterLoader;
-    /**
-     * Get definitions that should be added to the service container
-     *
-     * @return array<string, mixed>
-     */
-    public static function getServiceDefinitions(): array
-    {
-        return [];
-    }
-    /**
-     * Generic mount method
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->mountActions();
-        $this->mountFilters();
-    }
+	use Traits\Mountable;
+	use Traits\ActionLoader;
+	use Traits\FilterLoader;
+
+	/**
+	 * Get definitions that should be added to the service container
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function getServiceDefinitions(): array
+	{
+		return [];
+	}
+	/**
+	 * Mount actions and filters
+	 *
+	 * @return void
+	 */
+	public function onMount(): void
+	{
+		$this->mountActions();
+		$this->mountFilters();
+	}
 }

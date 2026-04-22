@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Module interface definition
  *
@@ -11,6 +10,7 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Interfaces;
 
 /**
@@ -20,18 +20,18 @@ namespace Bmd\WPFramework\Interfaces;
  */
 interface Module
 {
-    /**
-     * Setter for package name
-     *
-     * @param string $package : string name of the package.
-     *
-     * @return void
-     */
-    public function setPackage(string $package): void;
-    /**
-     * Getter for package name
-     *
-     * @return string
-     */
-    public function getPackage(): string;
+	/**
+	 * Setter for package name
+	 *
+	 * @param string $package : string name of the package.
+	 *
+	 * @return void
+	 */
+	public function setPackage( string $package ): void;
+	/**
+	 * Getter for package name
+	 *
+	 * @return string
+	 */
+	public function getPackage(): string;
 }

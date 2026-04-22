@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Service Controller
  *
@@ -15,9 +14,14 @@
  * @link       https://www.bobmoore.dev
  * @since      1.0.0
  */
+
 namespace Bmd\WPFramework\Controllers;
 
-use Bmd\WPFramework\Services\ServiceLocator, Bmd\WPFramework\Services, Bmd\WPFramework\Abstracts;
+use Bmd\WPFramework\ {
+	Services\ServiceLocator,
+	Services,
+	Abstracts
+};
 /**
  * Service Controller Class
  *
@@ -29,24 +33,24 @@ use Bmd\WPFramework\Services\ServiceLocator, Bmd\WPFramework\Services, Bmd\WPFra
  */
 class ServiceController extends Abstracts\Controller
 {
-    /**
-     * Get service container definitions
-     *
-     * Defines the core services that should be available in the service container,
-     * including asset loaders and path resolvers.
-     *
-     * @since  1.0.0
-     * @access public
-     *
-     * @return array<string, mixed> Array of service definitions.
-     */
-    public static function getServiceDefinitions(): array
-    {
-        return [ 
-            Services\ScriptLoader::class => ServiceLocator::autowire(), 
-            Services\StyleLoader::class => ServiceLocator::autowire(), 
-            Services\FilePathResolver::class => ServiceLocator::autowire(), 
-            Services\UrlResolver::class => ServiceLocator::autowire()
-        ];
-    }
+	/**
+	 * Get service container definitions
+	 *
+	 * Defines the core services that should be available in the service container,
+	 * including asset loaders and path resolvers.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @return array<string, mixed> Array of service definitions.
+	 */
+	public static function getServiceDefinitions(): array
+	{
+		return [
+			Services\ScriptLoader::class => ServiceLocator::autowire(),
+			Services\StyleLoader::class => ServiceLocator::autowire(),
+			Services\FilePathResolver::class => ServiceLocator::autowire(),
+			Services\UrlResolver::class => ServiceLocator::autowire(),
+		];
+	}
 }

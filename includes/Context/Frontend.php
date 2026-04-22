@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Frontend Context Handler Definition
  *
@@ -11,9 +10,13 @@
  * @link    https://www.bobmoore.dev
  * @since   1.0.0
  */
+
 namespace Bmd\WPFramework\Context;
 
-use Bmd\WPFramework\Abstracts, Bmd\WPFramework\Services;
+use Bmd\WPFramework\ {
+	Abstracts,
+	Services
+};
 /**
  * Frontend context handler
  *
@@ -23,16 +26,16 @@ use Bmd\WPFramework\Abstracts, Bmd\WPFramework\Services;
  */
 class Frontend extends Abstracts\ContextHandler
 {
-    /**
-     * Enqueue frontend styles and JS bundles
-     *
-     * Loads the main frontend JavaScript and CSS files
-     *
-     * @return void
-     */
-    public function enqueueAssets(): void
-    {
-        $this->enqueueScript(handle: "{$this->package}-frontend", path: 'build/frontend.js');
-        $this->enqueueStyle(handle: "{$this->package}-frontend", path: 'build/frontend.css');
-    }
+	/**
+	 * Enqueue frontend styles and JS bundles
+	 *
+	 * Loads the main frontend JavaScript and CSS files
+	 *
+	 * @return void
+	 */
+	public function enqueueAssets(): void
+	{
+		$this->enqueueScript( handle: "{$this->package}-frontend", path: 'build/frontend.js' );
+		$this->enqueueStyle( handle: "{$this->package}-frontend", path: 'build/frontend.css' );
+	}
 }
