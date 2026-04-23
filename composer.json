@@ -20,13 +20,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Bmd\\WPFramework\\": "includes"
+            "Bmd\\WPFramework\\": "includes",
+            "Bmd\\WPFramework\\PHPUnit\\": "tests/phpunit"
         }
-    },
-    "autoload-dev": {
-        "classmap": [
-            "tests\/phpunit"
-        ]
     },
     "require-dev": {
         "squizlabs\/php_codesniffer": "^3.7",
