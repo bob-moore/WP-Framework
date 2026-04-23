@@ -73,8 +73,22 @@ class Main
 	 *
 	 * @return void
 	 */
-	private function registerConfig(): void
+	/**
+	* Register the configuration array
+	*
+	* @return void
+	*/
+	protected function registerConfig(): void
 	{
+		if ( empty( $this->config['config.package'] ) ) {
+			$this->config['config.package'] = static::PACKAGE;
+		}
+
+		$this->config = apply_filters(
+			"{$this->config['config.package']}_config",
+			$this->config
+		);
+
 		self::$service_locator->addDefinitions(
 			definitions: wp_parse_args(
 				args: $this->config,
@@ -85,7 +99,6 @@ class Main
 					'config.url'     => untrailingslashit(
 						plugin_dir_url( __DIR__ )
 					),
-					'config.package' => static::PACKAGE,
 				]
 			)
 		);
