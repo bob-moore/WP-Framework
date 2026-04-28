@@ -21,7 +21,7 @@ use Bmd\WPFramework\Services\ServiceLocator;
  *
  * @subpackage Traits
  */
-class Main
+class Main extends Abstracts\Controller
 {
 	/**
 	 * The name of the plugin.
@@ -104,6 +104,21 @@ class Main
 		);
 	}
 	/**
+	* Get definitions that should be added to the service container
+	*
+	* @return array<string, mixed>
+	*/
+	public static function getServiceDefinitions(): array
+	{
+		return array_reduce(
+			static::CONTROLLERS,
+			function ( $carry, $controller ) {
+				return array_merge( $carry, [ $controller => ServiceLocator::autowire() ] );
+			},
+			[]
+		);
+	}
+	/**
 	 * Get controller definitions to add to service container
 	 *
 	 * @return void
@@ -111,13 +126,7 @@ class Main
 	public function registerControllers(): void
 	{
 		self::$service_locator->addDefinitions(
-			array_reduce(
-				static::CONTROLLERS,
-				function ( $carry, $controller ) {
-					return array_merge( $carry, [ $controller => ServiceLocator::autowire() ] );
-				},
-				[]
-			)
+			definitions: static::getServiceDefinitions()
 		);
 	}
 	/**
