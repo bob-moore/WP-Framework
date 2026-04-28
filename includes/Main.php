@@ -111,7 +111,7 @@ class Main extends Abstracts\Controller
 	public static function getServiceDefinitions(): array
 	{
 		return array_reduce(
-			static::CONTROLLERS,
+			self::CONTROLLERS,
 			function ( $carry, $controller ) {
 				return array_merge( $carry, [ $controller => ServiceLocator::autowire() ] );
 			},
@@ -145,12 +145,16 @@ class Main extends Abstracts\Controller
 		 * Build the service locator.
 		 */
 		self::$service_locator->build();
-		/**
-		 * Instantiate the controllers.
-		 */
-		foreach ( static::CONTROLLERS as $controller ) {
-			self::$service_locator->mountService( service: $controller );
-		}
+        /**
+         * Instantiate the controllers.
+         */
+        $defs = self::$service_locator->getDefinitions();
+
+        foreach ( $defs as $service => $definition) {
+            if ( is_object( $definition ) && Helpers::implements( $service, Interfaces\Controller::class ) ) {
+                self::$service_locator->mountService(service: $service);
+            }
+        }
 	}
 	/**
 	 * Locate a specific service

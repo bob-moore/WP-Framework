@@ -78,20 +78,33 @@ class ServiceLocator
 		}
 	}
 	/**
-	 * Build the container
-	 *
-	 * Adds collected service definitions to the container builder, and compiles
-	 * the container, setting it to the private container property.
-	 *
-	 * @return void
-	 */
-	public function build(): void
-	{
-		foreach ( $this->service_definitions as $definition ) {
-			$this->container_builder->addDefinitions( $definition );
-		}
-		$this->container = $this->container_builder->build();
-	}
+     * Get definitions that should be added to the service container
+     *
+     * @return array<string, mixed>
+     */
+    public function getDefinitions(): array
+    {
+        return $this->service_definitions;
+    }
+    /**
+     * Build the container
+     *
+     * Adds collected service definitions to the container builder, and compiles
+     * the container, setting it to the private container property.
+     * 
+     * @param bool $should_compile Whether to enable compilation for the container. Defaults to false.
+     *
+     * @return void
+     */
+    public function build( $should_compile = false ): void
+    {
+        $this->container_builder->addDefinitions($this->service_definitions);
+
+        if ( $should_compile ) {
+            $this->container_builder->enableCompilation( dirname( __DIR__ ) . '/cache' );
+        }
+        $this->container = $this->container_builder->build();
+    }
 	/**
 	 * Add a service definition to the collection of definitions.
 	 *
@@ -115,7 +128,7 @@ class ServiceLocator
 				$extended_definitions = $class_name::getServiceDefinitions();
 			}
 		}
-		$this->service_definitions[] = [ $service => $definition ];
+		$this->service_definitions[$service] = $definition;
 		if ( ! empty( $extended_definitions ) ) {
 			$this->addDefinitions( $extended_definitions );
 		}
