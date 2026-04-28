@@ -120,7 +120,6 @@ class ContextController extends Abstracts\Controller
 	public function mountAdminHandler( Context\Admin $handler ): void
 	{
 		add_action( 'admin_enqueue_scripts', [ $handler, 'enqueueAssets' ] );
-		add_action( 'enqueue_block_editor_assets', [ $handler, 'enqueueEditorAssets' ] );
 	}
 	/**
 	 * Mount login-specific assets and handlers

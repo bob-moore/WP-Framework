@@ -35,14 +35,4 @@ class Admin extends Abstracts\ContextHandler
 		$this->enqueueScript( handle: "{$this->package}-admin", path: 'build/admin.js' );
 		$this->enqueueStyle( handle: "{$this->package}-admin", path: 'build/admin.css' );
 	}
-	/**
-	 * Enqueue assets for the block editor
-	 *
-	 * @return void
-	 */
-	public function enqueueEditorAssets(): void
-	{
-		$this->enqueueScript( handle: "{$this->package}-editor", path: 'build/editor.js' );
-		$this->enqueueStyle( handle: "{$this->package}-editor", path: 'build/editor.css' );
-	}
 }
