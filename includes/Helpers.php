@@ -58,7 +58,7 @@ class Helpers
 			case is_object( $instance_or_class ):
 				$name = get_class( $instance_or_class );
 				break;
-			case class_exists( $instance_or_class ):
+			case is_string( $instance_or_class ) && '' !== $instance_or_class && class_exists( $instance_or_class ):
 				$name = $instance_or_class;
 				break;
 			default:
@@ -80,7 +80,7 @@ class Helpers
 	public static function uses( $instance_or_class, string $trait_class ): bool
 	{
 		$class_name = is_object( $instance_or_class ) ? get_class( $instance_or_class ) : $instance_or_class;
-		if ( ! class_exists( $class_name ) ) {
+		if ( ! is_string( $class_name ) || '' === $class_name || ! class_exists( $class_name ) ) {
 			return \false;
 		}
 		return in_array( $trait_class, self::getTraits( $class_name ), \true );
@@ -98,7 +98,7 @@ class Helpers
 	public static function implements( $instance_or_class, string $interface_class ): bool
 	{
 		$class_name = is_object( $instance_or_class ) ? get_class( $instance_or_class ) : $instance_or_class;
-		if ( ! class_exists( $class_name ?? '' ) ) {
+		if ( ! is_string( $class_name ) || '' === $class_name || ! class_exists( $class_name ) ) {
 			return \false;
 		}
 		return in_array( $interface_class, class_implements( $class_name ), \true );
@@ -113,7 +113,7 @@ class Helpers
 	public static function getTraits( $instance_or_class ): array
 	{
 		$class_name = is_object( $instance_or_class ) ? get_class( $instance_or_class ) : $instance_or_class;
-		if ( ! class_exists( $class_name ) ) {
+		if ( ! is_string( $class_name ) || '' === $class_name || ! class_exists( $class_name ) ) {
 			return [];
 		}
 		$traits = self::usesTrait( $class_name );
@@ -135,7 +135,7 @@ class Helpers
 	public static function usesTrait( $instance_or_class ): array
 	{
 		$class_name = is_object( $instance_or_class ) ? get_class( $instance_or_class ) : $instance_or_class;
-		if ( ! class_exists( $class_name ) ) {
+		if ( ! is_string( $class_name ) || '' === $class_name || ! class_exists( $class_name ) ) {
 			return [];
 		}
 		$traits = class_uses( $class_name );
