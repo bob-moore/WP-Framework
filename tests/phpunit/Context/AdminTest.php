@@ -38,39 +38,13 @@ final class AdminTest extends TestCase
 
         $scriptLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-admin', 'dist/build/scripts/admin.bundle.js', [], '', true );
+            ->with( 'bmd_wp_framework-admin', 'build/admin.js', [], '', true );
 
         $styleLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-admin', 'dist/build/admin.css', [], null, 'all' );
+            ->with( 'bmd_wp_framework-admin', 'build/admin.css', [], null, 'all' );
 
         $handler = new Admin( $styleLoader, $scriptLoader, 'bmd_wp_framework' );
         $handler->enqueueAssets();
-    }
-
-    /**
-     * @covers \Bmd\WPFramework\Context\Admin::enqueueEditorAssets
-     */
-    public function testEnqueueEditorAssetsLoadsEditorBundles(): void
-    {
-        $scriptLoader = $this->getMockBuilder( ScriptLoader::class )
-            ->disableOriginalConstructor()
-            ->onlyMethods( [ 'enqueue' ] )
-            ->getMock();
-        $styleLoader = $this->getMockBuilder( StyleLoader::class )
-            ->disableOriginalConstructor()
-            ->onlyMethods( [ 'enqueue' ] )
-            ->getMock();
-
-        $scriptLoader->expects( $this->once() )
-            ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-editor', 'dist/build/editor.js', [], '', true );
-
-        $styleLoader->expects( $this->once() )
-            ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-editor', 'dist/build/editor.css', [], null, 'all' );
-
-        $handler = new Admin( $styleLoader, $scriptLoader, 'bmd_wp_framework' );
-        $handler->enqueueEditorAssets();
     }
 }

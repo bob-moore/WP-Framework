@@ -57,6 +57,7 @@ class ContextController extends Abstracts\Controller
 	public function mountActions(): void
 	{
 		add_action( "{$this->package}_dispatch_context_handler", [ $this, 'loadContextHandler' ] );
+		add_action( "{$this->package}_mount_context", [ $this, 'mountContextHandler' ] );
 	}
 	/**
 	 * Load a context handler by type
@@ -68,15 +69,17 @@ class ContextController extends Abstracts\Controller
 	public function loadContextHandler( array $contexts ): void
 	{
 		foreach ( $contexts as $context ) {
-			$handler = Main::locateService( service_name: $context );
+			$handler_class = Main::locateService( service_name: $context );
 
-			if ( ! Helpers::implements( instance_or_class: $handler, interface_class: Interfaces\ContextHandler::class ) ) {
+			if ( ! Helpers::implements( instance_or_class: $handler_class, interface_class: Interfaces\ContextHandler::class ) ) {
 				continue;
 			}
 
-			$slug = Helpers::slugify( $handler );
-			add_action( "{$slug}_mount", [ $this, 'mountContextHandler' ] );
-			Main::locateService( service_name: $handler );
+			do_action(
+				"{$this->package}_mount_context",
+				// Locates the service instance for the handler class, which should be autowired.
+				Main::locateService( service_name: $handler_class )
+			);
 			break;
 		}
 	}

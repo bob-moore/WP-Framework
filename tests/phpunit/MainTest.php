@@ -69,7 +69,7 @@ final class MainTest extends TestCase
 
         $locator = $this->getMockBuilder( ServiceLocator::class )
             ->disableOriginalConstructor()
-            ->onlyMethods( [ 'addDefinitions', 'build', 'mountService' ] )
+            ->onlyMethods( [ 'addDefinitions', 'build', 'getDefinitions', 'mountService' ] )
             ->getMock();
 
         $locator->expects( $this->exactly( 2 ) )
@@ -77,6 +77,10 @@ final class MainTest extends TestCase
 
         $locator->expects( $this->once() )
             ->method( 'build' );
+
+        $locator->expects( $this->once() )
+            ->method( 'getDefinitions' )
+            ->willReturn( Main::getServiceDefinitions() );
 
         $locator->expects( $this->exactly( 3 ) )
             ->method( 'mountService' )

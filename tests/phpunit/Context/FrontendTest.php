@@ -38,11 +38,11 @@ final class FrontendTest extends TestCase
 
         $scriptLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-frontend', 'dist/build/frontend.js', [], '', true );
+            ->with( 'bmd_wp_framework-frontend', 'build/frontend.js', [], '', true );
 
         $styleLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-frontend', 'dist/build/frontend.css', [], null, 'all' );
+            ->with( 'bmd_wp_framework-frontend', 'build/frontend.css', [], null, 'all' );
 
         $handler = new Frontend( $styleLoader, $scriptLoader, 'bmd_wp_framework' );
         $handler->enqueueAssets();

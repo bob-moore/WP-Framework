@@ -38,11 +38,11 @@ final class LoginTest extends TestCase
 
         $scriptLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-login', 'dist/build/login.js', [], '', true );
+            ->with( 'bmd_wp_framework-login', 'build/login.js', [], '', true );
 
         $styleLoader->expects( $this->once() )
             ->method( 'enqueue' )
-            ->with( 'bmd_wp_framework-login', 'dist/build/login.css', [], null, 'all' );
+            ->with( 'bmd_wp_framework-login', 'build/login.css', [], null, 'all' );
 
         $handler = new Login( $styleLoader, $scriptLoader, 'bmd_wp_framework' );
         $handler->enqueueAssets();

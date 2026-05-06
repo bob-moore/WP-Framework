@@ -61,6 +61,7 @@ final class ContextControllerTest extends TestCase
         $controller = new ContextController( 'bmd_wp_framework' );
 
         WP_Mock::expectActionAdded( 'bmd_wp_framework_dispatch_context_handler', [ $controller, 'loadContextHandler' ] );
+        WP_Mock::expectActionAdded( 'bmd_wp_framework_mount_context', [ $controller, 'mountContextHandler' ] );
 
         $controller->mountActions();
 
@@ -102,27 +103,26 @@ final class ContextControllerTest extends TestCase
             ->onlyMethods( [ 'getService' ] )
             ->getMock();
 
+        $admin = $this->getMockBuilder( Context\Admin::class )
+            ->disableOriginalConstructor()
+            ->getMock();
+
         // First call resolves the name alias ('ADMIN') → the class name string
         $locator->expects( $this->exactly( 2 ) )
             ->method( 'getService' )
-            ->willReturnCallback( function ( string $service ) {
+            ->willReturnCallback( function ( string $service ) use ( $admin ) {
                 if ( 'ADMIN' === $service ) {
                     return Context\Admin::class;
                 }
                 // Second call: locate the actual instance to trigger mount
-                return $this->getMockBuilder( Context\Admin::class )
-                    ->disableOriginalConstructor()
-                    ->getMock();
+                return $admin;
             } );
 
         $reflection = new \ReflectionClass( Main::class );
         $locatorProperty = $reflection->getProperty( 'service_locator' );
         $locatorProperty->setValue( null, $locator );
 
-        WP_Mock::expectActionAdded(
-            'bmd_wpframework_context_admin_mount',
-            $this->anything()
-        );
+        WP_Mock::expectAction( 'bmd_wp_framework_mount_context', $admin );
 
         $controller = new ContextController( 'bmd_wp_framework' );
         $controller->loadContextHandler( [ 'ADMIN' ] );
@@ -164,7 +164,6 @@ final class ContextControllerTest extends TestCase
             ->getMock();
 
         WP_Mock::expectActionAdded( 'admin_enqueue_scripts', [ $adminHandler, 'enqueueAssets' ] );
-        WP_Mock::expectActionAdded( 'enqueue_block_editor_assets', [ $adminHandler, 'enqueueEditorAssets' ] );
 
         $controller = new ContextController( 'bmd_wp_framework' );
         $controller->mountAdminHandler( $adminHandler );

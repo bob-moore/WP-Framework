@@ -24,7 +24,7 @@ final class ContextTest extends TestCase
     /**
      * Register default conditional function mocks used by all tests.
      */
-    private function mockDefaultContextConditionals(): void
+    private function mockDefaultContextConditionals( bool $doing_ajax = false, bool $doing_cron = false ): void
     {
         $GLOBALS['wp_framework_is_admin'] = false;
         $GLOBALS['wp_framework_current_screen'] = null;
@@ -35,8 +35,9 @@ final class ContextTest extends TestCase
         WP_Mock::userFunction( 'is_archive', [ 'return' => false ] );
         WP_Mock::userFunction( 'is_singular', [ 'return' => false ] );
         WP_Mock::userFunction( 'is_404', [ 'return' => false ] );
-        WP_Mock::userFunction( 'wp_doing_ajax', [ 'return' => false ] );
-        WP_Mock::userFunction( 'wp_doing_cron', [ 'return' => false ] );
+        WP_Mock::userFunction( 'is_login', [ 'return' => false ] );
+        WP_Mock::userFunction( 'wp_doing_ajax', [ 'return' => $doing_ajax ] );
+        WP_Mock::userFunction( 'wp_doing_cron', [ 'return' => $doing_cron ] );
     }
 
     /**
@@ -85,9 +86,7 @@ final class ContextTest extends TestCase
      */
     public function testGetContextReturnsAjaxChain(): void
     {
-        $this->mockDefaultContextConditionals();
-
-        WP_Mock::userFunction( 'wp_doing_ajax', [ 'return' => true ] );
+        $this->mockDefaultContextConditionals( true );
 
         $provider = new Context( 'bmd_wp_framework' );
 
@@ -99,9 +98,7 @@ final class ContextTest extends TestCase
      */
     public function testGetContextReturnsCronChain(): void
     {
-        $this->mockDefaultContextConditionals();
-
-        WP_Mock::userFunction( 'wp_doing_cron', [ 'return' => true ] );
+        $this->mockDefaultContextConditionals( false, true );
 
         $provider = new Context( 'bmd_wp_framework' );
 

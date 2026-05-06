@@ -233,6 +233,11 @@ final class ServiceLocatorTest extends TestCase
 		$locator = $this->getTestInstance();
 
 		// Mock the build process
+		$this->mock_builder->shouldReceive( 'addDefinitions' )
+			->once()
+			->with( [] )
+			->andReturn( $this->mock_builder );
+
 		$this->mock_builder->shouldReceive( 'build' )
 			->once()
 			->andReturn( $this->mock_container );
@@ -269,6 +274,11 @@ final class ServiceLocatorTest extends TestCase
 
 		// Mock the build process and container error
 		$exception = new \DI\NotFoundException( 'Service not found' );
+
+		$this->mock_builder->shouldReceive( 'addDefinitions' )
+			->once()
+			->with( [] )
+			->andReturn( $this->mock_builder );
 
 		$this->mock_builder->shouldReceive( 'build' )
 			->once()
@@ -307,6 +317,11 @@ final class ServiceLocatorTest extends TestCase
 		$locator = $this->getTestInstance();
 
 		// Mock container and builder
+		$this->mock_builder->shouldReceive( 'addDefinitions' )
+			->once()
+			->with( [] )
+			->andReturn( $this->mock_builder );
+
 		$this->mock_builder->shouldReceive( 'build' )
 			->andReturn( $this->mock_container );
 
@@ -333,6 +348,11 @@ final class ServiceLocatorTest extends TestCase
 	public function testMakeServiceCreatesNewInstance(): void
 	{
 		$locator = $this->getTestInstance();
+
+		$this->mock_builder->shouldReceive( 'addDefinitions' )
+			->once()
+			->with( [] )
+			->andReturn( $this->mock_builder );
 
 		$this->mock_builder->shouldReceive( 'build' )
 			->andReturn( $this->mock_container );
@@ -389,6 +409,11 @@ final class ServiceLocatorTest extends TestCase
 	public function testSetServiceDelegatesToContainer(): void
 	{
 		$locator = $this->getTestInstance();
+
+		$this->mock_builder->shouldReceive( 'addDefinitions' )
+			->once()
+			->with( [] )
+			->andReturn( $this->mock_builder );
 
 		$this->mock_builder->shouldReceive( 'build' )
 			->andReturn( $this->mock_container );
