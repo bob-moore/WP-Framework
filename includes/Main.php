@@ -74,10 +74,10 @@ class Main extends Abstracts\Controller
 	 * @return void
 	 */
 	/**
-	* Register the configuration array
-	*
-	* @return void
-	*/
+	 * Register the configuration array
+	 *
+	 * @return void
+	 */
 	protected function registerConfig(): void
 	{
 		if ( empty( $this->config['config.package'] ) ) {
@@ -104,10 +104,10 @@ class Main extends Abstracts\Controller
 		);
 	}
 	/**
-	* Get definitions that should be added to the service container
-	*
-	* @return array<string, mixed>
-	*/
+	 * Get definitions that should be added to the service container
+	 *
+	 * @return array<string, mixed>
+	 */
 	public static function getServiceDefinitions(): array
 	{
 		return array_reduce(
@@ -145,16 +145,16 @@ class Main extends Abstracts\Controller
 		 * Build the service locator.
 		 */
 		self::$service_locator->build();
-        /**
-         * Instantiate the controllers.
-         */
-        $defs = self::$service_locator->getDefinitions();
+		/**
+		 * Instantiate the controllers.
+		 */
+		$defs = self::$service_locator->getDefinitions();
 
-        foreach ( $defs as $service => $definition) {
-            if ( is_object( $definition ) && Helpers::implements( $service, Interfaces\Controller::class ) ) {
-                self::$service_locator->mountService(service: $service);
-            }
-        }
+		foreach ( $defs as $service => $definition ) {
+			if ( is_object( $definition ) && Helpers::implements( $service, Interfaces\Controller::class ) ) {
+				self::$service_locator->mountService( service: $service );
+			}
+		}
 	}
 	/**
 	 * Locate a specific service
