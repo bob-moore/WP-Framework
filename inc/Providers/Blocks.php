@@ -64,14 +64,14 @@ class Blocks extends Abstracts\Module
 		parent::__construct( $package );
 	}
 	/**
-	* Glob all blocks and register them
-	*
-	* @return void
-	*/
+	 * Glob all blocks and register them
+	 *
+	 * @return void
+	 */
 	public function registerBlocks(): void
 	{
 		$blocks = glob( $this->file_path_resolver->resolve( 'build/blocks/**/block.json' ) );
-		
+
 		foreach ( $blocks as $block ) {
 			register_block_type( $block );
 		}

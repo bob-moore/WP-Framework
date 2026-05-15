@@ -3,6 +3,6 @@ includes:
 parameters:
 	level: 6
 	paths:
-		- ../includes
+		- ../inc
 	scanDirectories:
 		- ../vendor

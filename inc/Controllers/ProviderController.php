@@ -47,7 +47,7 @@ class ProviderController extends Abstracts\Controller
 	 */
 	public static function getServiceDefinitions(): array
 	{
-		return [ 
+		return [
 			Providers\Context::class => ServiceLocator::autowire(),
 			Providers\Blocks::class => ServiceLocator::autowire(),
 		];
