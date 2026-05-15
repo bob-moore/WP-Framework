@@ -1,8 +1,8 @@
 # WP Framework
 
-[![PHPUnit](https://github.com/bob-moore/WP-Framework/actions/workflows/phpunit.yml/badge.svg)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpunit.yml)
-[![PHPStan](https://github.com/bob-moore/WP-Framework/actions/workflows/phpstan.yml/badge.svg)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpstan.yml)
-[![PHPCS](https://github.com/bob-moore/WP-Framework/actions/workflows/phpcs.yml/badge.svg)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpcs.yml)
+[![PHPUnit](https://github.com/bob-moore/WP-Framework/actions/workflows/phpunit.yml/badge.svg?branch=main)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpunit.yml)
+[![PHPStan](https://github.com/bob-moore/WP-Framework/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpstan.yml)
+[![PHPCS](https://github.com/bob-moore/WP-Framework/actions/workflows/phpcs.yml/badge.svg?branch=main)](https://github.com/bob-moore/WP-Framework/actions/workflows/phpcs.yml)
 
 A small Composer library for bootstrapping WordPress plugins and themes with a PHP-DI service container, auto-mounted controllers, context-aware asset loading, and shared path/URL helpers.
 
