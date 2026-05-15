@@ -1,0 +1,12 @@
+{
+	"apiVersion": 3,
+	"title": "example-block",
+	"name": "placeholder/example-block",
+	"category": "widgets",
+	"icon": "smiley",
+	"editorScript": "file:./index.tsx",
+	"attributes": {},
+	"supports": {
+		"html": false
+	}
+}
